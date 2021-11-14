@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --yellow: yellow;
+  --black: black;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.8)
+    ),
+    url("https://cdn.pixabay.com/photo/2017/12/31/13/49/barn-owl-3052382_960_720.jpg")
+      center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  /* grid-template-rows: repeat(7, 1fr); */
+  gap: 10px;
+  justify-content: center;
+  /* align-content: center; */
+  grid-auto-flow: row dense;
+}
+
+[class^="item"]{
+    font-size: 30px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid var(--black);
+    background: var(--yellow);
+    /* height: 40px; */
+    /* fijate que si le doy una altura luego no pueden estirarse.Interesante */
+}
+.item:nth-of-type(9){
+    grid-area: 2/4/4/6;
+    /* grid-column: span 2; */
+    /* grid-row:span 2; */
+    align-self: stretch;
+}
+
+.item:nth-of-type(16) {
+    grid-column: span 2;
+    grid-row: span 2;
+    
+}

@@ -1,0 +1,52 @@
+            METODOLOGIA BEM
+
+Fuente: https://www.youtube.com/watch?v=YaAkV--25fg
+
+
+La metodologia BEM viene de las siglas Block,Element, Modifier.Se conforma pues por bloques,elementos y modificadores.
+Su principal característica es su nomenclatura ya que provee una nomenclatura de clases.
+Gracias a esta nomenclatura podré escribir código limpio y modular,componentes reutilizables y mantener la especificidad al mínimo.
+Fijate que BEM permite reutilizar codigo
+
+      QUE ES UN BLOQUE
+
+BLOCK: Un bloque en BEM es una entidad independiente, no necesita de nadie más para existir(Header,Nav,Formulario,Footer,Contenedor,Section)
+
+A los bloques se les nombra con la funcionalidad de ese bloque.Ejemplos:
+<nav class="nav...  <- porque va a ser una nav
+<header class="header" <- porque es un header
+<footer class="footer" <- porque es un footer
+<section class="card  <- porque va a ser una card
+<section class="container" <- porque va a ser un container
+
+* Fijate que a veces coinciden la etiqueta y la funcionalidad,pero me estoy referiendo a la funcionalidad
+
+            QUE ES UN ELEMENTO
+
+Un elemento en BEM,depende directamente de un Bloque,por lo que debe estar dentro de uno(Es dependiente de un bloque y está ligado a él).
+
+A los elementos se les nombra primero con el nombre de su bloque contenedor,dos guiones bajos y después la descripción de ese elemento:
+<form class="form">
+  <input class="form__input" />
+  <input type="submit" class="form__submit" />
+</form>
+
+<nav class="nav">
+  <a href="" class="nav__item">Inicio</a>
+  <a href="" class="nav__item">Home</a>
+</nav>
+
+               QUE ES UN MODIFICADOR
+
+Un modificador en BEM, puede afectar a un bloque o a un elemento,e indica una modificación a dicho elemento o bloque(por ejemplo disabled,un color diferente). 
+
+A los modificadores se les nombra con el nombre que tenian anteriormente,se le agrega dos guiones medios y la descripción de la modificación.
+Un modificador se agrega al nombre de la clase,no se reemplaza:
+
+<nav class="nav">
+  <a href="" class="nav__link"></a>
+  <a href="" class="nav__link nav__link--disabled"></a>
+</nav>
+
+BEM no recomienda usar clases como modificadores globales:
+<button class="button disabled"></button> <- esto no se recomienda porque genera especificidad extra

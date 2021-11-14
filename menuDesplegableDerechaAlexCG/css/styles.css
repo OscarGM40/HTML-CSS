@@ -1,0 +1,198 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --navbarBackground: #1a202c;
+}
+
+.menu {
+  background-color: var(--navbarBackground);
+  color:white;
+  height: 70px;
+}
+
+.menu__container {
+   display: flex;
+   width: 90%;
+   margin: 0 auto;
+   max-width: 1200px;
+   height: 100%;
+   justify-content: space-between;
+   align-items: center;
+}
+
+/* fijate como ha cogido toda la altura de la navbar */
+.menu__links {
+   height: 100%;
+   transition: transform .5s;
+   display: flex;
+   /* fijate como escondo o muestro algo transladandolo en X +/- 100% Prueba a crear un boton que esconda una leftbar por Javascript*/
+   transform: translate(100%);
+   
+}
+
+.menu__links--show {
+   transform: unset;
+   width: 100%;      
+}
+
+/* las pone en relative solo para el absolute de los hijos*/
+.menu__item {
+   list-style: none;
+   position: relative;
+   height: 100%;
+   --clip: polygon(0 0, 100% 0, 100% 0, 0 0);
+   --transform: rotate(-90deg);
+}
+
+.menu__item:hover {
+   --clip: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+   --transform:rotate(0);
+}
+
+.menu__link {
+   text-decoration: none;
+   padding: 0 30px;
+   display: flex;
+   width: 130px;
+   height: 100%;
+   align-items: center;
+   /* justify-content: space-between; */
+   color:white;
+}
+.menu__link:hover {
+   background-color:#6688cc;
+}
+
+.menu__arrow {
+   transform: var(--transform);
+   transition: transform .3s;
+   display: block;
+   margin-left: 3px;
+}
+
+.menu__nesting {
+   list-style: none;
+   transition:clip-path .3s;
+   clip-path: var(--clip);
+   position: absolute;
+   right: 0;
+   top:70px;
+   /* bottom: 0; */
+   width: max-content;
+   /* fijate que la tiene que transladar un 100% para ponerla debajo porque se puso justo encima */
+   /* transform: translateY(100%); */
+   background-color: #000;
+}
+
+.menu__link--inside {
+   padding: 30px 20px;
+}
+
+.menu__link--inside:hover {
+   background-color: #798499;
+}
+
+.menu__hamburguer {
+   height: 100%;
+   display: flex;
+   align-items: center;
+   padding: 0 15px;
+   cursor: pointer;
+   display: none;
+}
+
+.menu__img {
+   display: block;
+   width: 40px;
+}
+
+@media (max-width:800px){
+   .menu__hamburguer {
+      display: flex;
+   }
+
+   .menu__item {
+      --clip:0;
+      overflow: hidden;
+   }
+   /* clase agregada con Javascript */
+   .menu__item--active {
+      --transform: rotate(0);
+      --background: #5e7094;
+   }
+
+   .menu__item--show {
+      background-color: var(--background);
+   }
+   
+   .menu__links {
+      position:fixed;
+      /* maximo mediras 400px y menos de eso vas a medir el 100% del ancho */
+      max-width: 400px;
+      width: 100%;
+      /* top 70 porque la navbar mide 70,hay que bajarlo 70px */
+      top:70px;
+      /* podria pegarlo a donde quisiera con ese fixed,de echo lo prefiero a la izquierda(left a 0 */
+      right: 0;
+      /* lo estiro hasta abajo,pero podria no hacerlo */
+      bottom: 0;
+      background-color:black;
+      overflow-y: auto;
+      display: grid;
+      grid-auto-rows:max-content;   
+      /* transform: translate(100%); */
+   }
+   /* menu link son los enlaces principales */
+   .menu__link {
+      padding: 25px 0 25px 30px;
+      height: auto;
+      width: auto;
+   }
+
+   .menu__arrow {
+      margin-left: auto;
+      margin-right: 20px;
+   }
+   .menu__nesting {
+      display: grid;
+      /* position unset quita el posicionamiento recuerda que es la ul,ya no la queremos en absolute*/
+      position:unset;
+      width: 100%;
+      /* transform: translateY(0); */
+      height: 0;
+      transition: height .3s;
+   }
+
+   .menu__link--inside{
+      width: 90%;
+      margin-left: auto ;
+      border-left: 1px solid #798499;  
+   }
+}
+.moko {
+   /* fixed lo saca del flujo a donde yo quiera posicionarlo con top,bottom,etc */
+   position:fixed;
+   top: 20%;
+   bottom: 20%;
+   overflow-y: auto;
+   background-color:rgb(0, 255, 64);
+   color:black;
+   left: 0;
+   transition: transform .3s linear;
+   cursor: pointer;
+}
+
+.moko:hover {
+   transform: scale(1.1);
+   transition: transform .3s linear;
+}

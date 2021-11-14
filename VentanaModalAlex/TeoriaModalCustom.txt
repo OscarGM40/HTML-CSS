@@ -1,0 +1,20 @@
+
+
+
+
+
+
+
+
+
+            MODAL CUSTOM PURO CSS Y JS
+
+Source: https://www.youtube.com/watch?v=Iaw9rFopXPY          
+
+Crear un Modal no es muy complicado.Lo mejor es apoyarse en Javascript.Puedo crear cualquier elemento cuyo padre esté en fixed y abarque todo y quitarle por defecto la opacidad y los eventos del mouse y al pulsar en algun boton por javascript agregarle una clase
+
+Despues algun boton sobre el modal la quitará.Fijate que agregarle transiciones en la opacidad del modal hará el tipico fade y también lo puedo traer desde el lado que necesite con un transform: translate
+
+Fijate como para agregar el fade he tenido que agregar una transition para la opacity en dos lados,tanto para cuando la tiene como para cuando no
+
+No solo quiero el fadein + fadeout.Quiero más dinamismo,ya que es gratis.Añado una custom-property que desplace el modal desde arriba

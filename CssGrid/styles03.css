@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  padding: 50px;
+  width: 100%;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3)
+    ),
+    url("https://cdn.pixabay.com/photo/2021/08/16/03/56/common-heron-6549208_960_720.jpg")
+      center;
+  background-size: cover;
+}
+
+
+.container {
+  display: grid;
+  grid-template-columns: 100px 1fr 200px;
+  grid-template-rows: 200px 100px 400px 50px;
+  grid-gap: 20px;
+}
+
+[class^="item"] {
+  border: 5px solid rgba(0, 0, 0, 0.03);
+  border-radius: 3px;
+  font-size: 35px;
+  background-color: rgba(255, 255, 0, 0.192);
+  justify-content: center;
+  align-items: center;
+  display: flex;  
+}

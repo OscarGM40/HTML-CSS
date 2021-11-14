@@ -1,0 +1,24 @@
+
+section {
+   width: 200px;
+   height: 200px;
+   border: 1px solid #2d3d2d;
+   display: flex;
+   flex-wrap:wrap;
+   flex-direction: row-reverse;
+   align-items: flex-start;
+   justify-content: space-evenly;
+}
+
+div {
+   color: #ffffff;
+   background-color: #2d3d2d;
+   padding: 12px;
+   display: inline-block;
+   /* height: 30px; */
+}
+.cinco{
+   order:-1;
+   align-self: center;
+   justify-self: center;
+}

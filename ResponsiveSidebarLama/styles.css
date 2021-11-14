@@ -1,0 +1,148 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Roboto', sans-serif;
+}
+
+:root {
+   --semiblack:#111827;
+   --gray:#9ca3af;
+   --gray2:#4b4b4b;
+}
+
+.sidebar {
+   width: 180px;
+   min-height: 100vh;
+   /* min-height: 100%; */
+   background-color:var(--semiblack);
+   color:var(--gray);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: flex-start;
+}
+
+.sidebar-top,
+.sidebar-center,
+.sidebar-bottom {
+   width: 80%;
+   padding: 10px 0;
+   margin-bottom: 10px;
+   display: flex;
+   align-items: center;
+   /* justify-content: center; */
+   border-bottom: 1px solid var(--gray2);
+   
+}
+
+.sidebar-bottom {
+   border:none;
+   justify-content: center;
+}
+
+.logo {
+   font-size: 30px;
+   margin-right: 10px;
+   cursor: pointer;
+   padding-left: 10px;
+}
+
+.brand {
+   font-size: 22px;
+   font-weight: bold;
+   cursor: pointer;
+}
+
+.list {
+   list-style: none;
+   padding: 0;
+   width: 100%;
+}
+
+.list-item {
+   margin-bottom: 10px;
+   font-size: 16px;
+   font-weight: 500;
+   cursor: pointer;
+   padding: 10px;
+   border-radius: 10px;
+}
+
+.list-item-icon {
+   width: 30px;
+   font-size: 18px;
+}
+
+.list-item:hover,
+.list-item.active {
+   background-color: #374151;
+   color:white;
+}
+
+.color-box {
+   width: 25px;
+   height: 25px;
+   border: 2px solid rgb(192, 190, 190);
+   border-radius: 5px;
+   cursor: pointer;
+   margin-left: 10px;
+   position: relative;
+   left:-5px; 
+}
+
+.dark {
+   background-color: #111827;
+}
+
+.night {
+   background-color: #312e81;
+}
+
+.light {
+   background-color: #f3f4f6;
+}
+
+@media only screen and (max-width: 768px) {
+   .sidebar {
+      width: 55px;
+
+   }
+   .brand,.list-item-text {
+      display: none;
+   }
+   .logo{
+      padding-left: 7px;
+   }
+
+.sidebar-center {
+   width: 75%;
+   justify-content: center;
+}
+   .sidebar-bottom{
+      flex-direction: column;
+   }
+   .color-box {
+      margin-bottom: 5px;
+   }
+}
+
+.sidebar.night{
+   background-color: #312e81;
+   color:#b4bbc7;
+}
+
+.list-item.active.night {
+   background-color: #4338ca;
+}
+
+
+.sidebar.light{
+   background-color: #f3f4f6;
+   color:#111827;
+}
+
+.list-item.active.light {
+   background-color: #d1d5db;
+   color:#111827;
+}

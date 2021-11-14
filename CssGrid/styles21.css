@@ -1,0 +1,45 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  padding-top: 40px;
+}
+
+.container {
+width: 50%;
+margin: 0 auto;
+text-align: center;
+
+}
+
+
+.header__title {
+   font-size: 80px;
+   font-weight: 200;
+   margin-bottom: 20px;
+}
+
+.header__p1 {
+   color: gray;
+   font-size: 22px;
+}
+
+.header__p2, .header__p3 {
+   margin: 30px 0;
+   font-size: 18px;
+}
+
+.header__span {
+   color:blue;
+   font-size: 16px;
+}
+
+.header__span::before {
+   content: url(./svg/chevron.svg);
+   position: relative;
+   top:6px;
+}

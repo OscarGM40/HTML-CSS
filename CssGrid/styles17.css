@@ -1,0 +1,61 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+:root {
+   --yellow:orangered;
+   --black:black;
+   --clipPath: circle(70% at top left);
+   --transition: clip-path 1s;
+
+}
+
+body {
+   min-height: 100vmin;
+   background: linear-gradient(to bottom,rgba(255,255,255,0.6),rgba(255,255,255,0.8)), url("https://cdn.pixabay.com/photo/2020/07/30/10/26/asian-woman-5450041_960_720.jpg") center no-repeat;
+   background-size:cover;
+   padding-top: 30px;
+}
+
+.container {
+   clip-path: var(--clipPath);
+   width: 90%;
+   margin: 0 auto;
+   padding: 10px;
+   border-radius: 10px;
+   border: 4px ridge var(--black);
+   display: grid;
+   gap: 20px 10px;
+   grid-template-columns: repeat(5,100px );
+   grid-template-rows: repeat(5,100px );
+   justify-content: space-between;
+   grid-auto-flow: row dense;
+   transition: var(--transition);
+   
+}
+
+.container:hover {
+   --clipPath: circle(150% at top left);
+   transition: var(--transition);
+}
+
+/* no parece buena idea darle medidas fijas a los hijos,mejor darle medidas a las columnas o filas que los tendrán en grid-template-columns | rows */
+[class^="item"]{
+   font-size: 20px;
+   border: 1px solid var(--black);
+   border-radius: 3px;
+   background: var(--yellow);
+   display: grid;
+   align-items: center;
+   justify-content: center;
+   
+}
+.item:hover{
+   cursor:not-allowed;
+}
+
+.itemfake {
+   align-self: center;
+}

@@ -1,0 +1,66 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+:root {
+   --black:black;
+   --white:white;
+   --orange:orangered;
+}
+
+body {
+   height: 100vmin;
+   background: linear-gradient(to right,
+   rgba(155,155,155,0.4),rgba(200,200,200,0.8))
+   ,url("https://eneax.github.io/learn-css-grid/20-CSS-Grid-Image-Gallery/images/3.jpg")
+   center no-repeat
+   ;
+   background-size: cover;
+   padding-top: 50px;
+}
+
+.gallery{
+   width: 95%;
+   margin: 0 auto;
+   /* padding: 10px; */
+   display: grid;
+   border-radius: 10px;
+   outline: 3px solid var(--black);
+   grid-template-columns: repeat(auto-fill,100px);
+   grid-auto-flow: dense;
+   grid-auto-rows: row;
+   gap:10px;
+
+}
+
+.item{
+   overflow: hidden;
+}
+
+.item.h1{
+ grid-column: span 1;
+}
+.item.h2{
+ grid-column: span 2;
+}
+.item.h3{
+ grid-column: span 3;
+}
+.item.h4{
+ grid-column: span 4;
+}
+
+.item.v1{
+ grid-row: span 1;
+}
+.item.v2{
+ grid-row: span 2;
+}
+.item.v3{
+ grid-row: span 3;
+}
+.item.v4{
+ grid-row: span 4;
+}

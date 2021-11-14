@@ -1,0 +1,82 @@
+					FLEXBOX
+
+Source; https://coryrylan.com/blog/how-to-center-in-css-with-flexbox
+
+Una de las formas más fáciles que hay para centrar elementos en CSS es Flexbox.CSS Flexbox es un modelo de capas que trabaja en un eje principal y otro secundario(igual que Grid,pero solo una fila o columna)
+
+Para empezar a usar flex hay que poner en display:flex un elemento HTML.Esto hará que ese elemento sea un Flex Container y a los hijos directos que declare dentro de él Flex Items.
+
+Normalmente se suele especificar un alto para el Container,pero si no se le indica cogerá el minimo necesario(si pongo un Flex Item con 50px de alto cogerá esos 50px).
+
+1 - El eje principal puede cambiarse con la propiedad flex-direction:
+
+-flex-direction: row; ITEM 1-ITEM 2- ITEM 3 : por defecto
+-flex-direction: row-reverse: ITEM3-ITEM2-ITEM1 <-en inverso
+							      ITEM1
+-flex-direction: column:   ITEM2		empiezan desde arriba abajo en el eje Y
+							      ITEM3
+
+  						                 ITEM3
+-flex-direction: column-reverse:   ITEM2 <- empiezan desde abajo
+ 									        ITEM1
+
+
+2- Para determinar que harán los Flex Items cuando el Contenedor no tenga las medidas suficientes para albergarlos se usa la propiedad flex-wrap.Por defecto está en nowrap,es decir que no va a romper el maquetado,encogiendo a los flex Items.Se puede cambiar a no-wrap para que los cambie de fila en vez de encogerlos,respetando las medidas que tuvieran esos flex-items.
+-flex-wrap: wrap | nowrap | wrap-reverse | nowrap-reverse
+
+*NOTA: estas dos propiedades direction y wrap tienen el shorthand 'flex-flow: flexdirection & flexwrap:
+flex-flow: column nowrap; <- importante,puedo resumirlas en una
+
+3- Para centrar en el eje principal(por defecto el X) los items en relacion al contenedor se usa la propiedad justify-content.
+
+-justify-content: flex-start <- por defecto,se alinean al principio del Container
+-justify-content:center  <- centrados y sin espaciado entre ellos
+-justify-content: flex-end <- pegados al final sin espaciado entre ellos
+
+-justify-content:space-between; <-como su nombre indica solo hay espaciado entre ellos
+-justify-content:space-around; <- espaciado alrededor de todos,el doble entre items interiores
+-justify-content:space-evenly; <-espaciado totalmente equitativo
+
+
+4- Los Items en un contenedor Flex por defecto cogen toda la altura del Flex Container,a menos que le defina una(estan en flex-item:stretch).
+Para que tengan menos altura puedo hacerlo simplemente asignandoles una altura o cambiando el valor de esa propiedad align-items.
+
+-align-items: stretch; <- comportamiento por defecto,el Flex Item trata de coger toda la altura del FlexContainer,pero si estuviera declarada su Flex Item Height,cogerá la suya
+
+-align-items: flex-start: se alinean en el principio o techo del contenedor(suben arriba)
+-align-items: center <- se alinean en el centro del contenedor y de él suyo propio 
+-align-items: flex-end: <- se alinean en la base del Container
+-align-items:baseline <- se alinean en la linea base de sus contenidos()
+-align-items: space-between | space-around | space-evenly <- igual que para justify,se alinean sólo con espaciado entre ellos,con espaciado entre todo o con espaciado uniforme.
+
+De nuevo recuerda que un Container tendrá la altura necesaria para contener sus hijos,a menos que le declare una.
+
+5- align-content: esta propiedad es para cuando hay más de dos filas(o columnas si estoy en direction:column).Además,se refiere a todo el contenido(a todas las filas) asi que por ejemplo align-content:flex-start va a poner las filas juntas arriba y sin espaciado
+
+align-content: flex-start: ITEM 1 iTEM 2 ITEM3
+									ITEM 4 ITEM 5 ITEM 6 <- pone las filas(el contenido) junto
+
+
+
+6- Tanto FlexBox como GridCSS se usan con mediaQueries para responsibidad.Está a la orden del día cambiar su comportamiento segun screensizes:
+@media screen and (max-width: 992px){
+	.container{
+		flex-direction: column;
+	}
+	-items {
+		width:80%;
+	}
+}
+
+7- Fijate que el modelo de cajas de CSS es muy poderoso.Si por ejemplo quiero una navbar con un espaciado a los lados puedo definira dos cajas,la primera con 100% de ancho y la segunda con un 80%,para que me quede un 10% a cada lado.
+.navbar{
+	width:100%; <- ya lo iba a heredar
+	height:55px;
+	background-color: tomato; <- 
+}
+.container {
+	width:80%;
+	display:flex; <- es a este al que le meto el contenido
+}
+* Incluso tendré que hacer más cajas para ese contenido,si es un poco complejo y tengo que centrarlo,etc... Todo esto no es nada complicado,pero hay que practicar mucha maquetación,willy.
+

@@ -1,0 +1,64 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   background: linear-gradient(135deg,
+   rgba(0,0,0,0.3),rgba(145,155,155,0.9)),url("https://cdn.pixabay.com/photo/2021/10/03/04/21/woman-6676901_960_720.jpg") center;
+   height: 100vmin;
+   background-attachment: fixed;
+   /* confirmado asinto falta el attachment para ser un verdadero asinto */
+   background-repeat: no-repeat;
+   background-size: cover;
+   padding-top: 0px;
+}
+
+.codepen {
+   display: grid;
+   height: 100%;
+   grid-template-columns: 1fr;
+   grid-template-rows: max-content 1fr 1fr max-content;
+   /* justify-content: center; */
+   /* align-items: center; */
+}
+
+.codepen__header{
+   justify-self: center;
+   /* align-self: center; */
+   min-height: 50px;
+   font-size: 30px;
+}
+
+[class$="section"]{
+   max-height: 400px;
+   outline: 1px solid black;
+}
+
+[class$="section"]:nth-of-type(1){
+   display: grid;
+   grid-template-columns: repeat(3,1fr);
+}
+
+[class$="section"]:nth-of-type(1)>h1{
+   display: grid;
+   outline: 1px solid orangered;
+   justify-content: center;
+   align-items: start;
+   padding-top: 20px;
+   font-size: 30px;
+}
+
+[class$="section"]:nth-last-of-type(1){
+   display: grid;
+   justify-content: center;
+   align-items: start;
+   padding-top: 20px;
+   font-size: 30px;
+}
+
+.codepen__footer{
+   font-size: 26px;
+   justify-self: center;
+}

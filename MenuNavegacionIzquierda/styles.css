@@ -1,0 +1,132 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  height: 80px;
+  width: 100%;
+  font-family: "lato";
+  background: linear-gradient(
+    to right,
+    rgba(25, 84, 161, 0.849),
+    rgba(97, 37, 116, 0.925)
+  );
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation-name: navbar;
+  animation-duration: 4s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 1s;
+  position:fixed;
+  top: 0;
+  z-index: 1; 
+}
+
+@keyframes navbar {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* con inherit heredo la propiedad del padre(80px)*/
+nav {
+   height: inherit;
+   align-items: center;
+   width: 90%;
+   max-width: 1500px;
+   margin:0 auto;
+   display: grid;
+   grid-template-columns: auto 1fr min-content;
+   /* display: flex; */
+   gap:10px;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.logo{
+   height: 80px;
+   background:rgba(255,255,255,0.2);
+   border-radius: 3px;
+
+}
+
+.logo img {
+   height: inherit;
+}
+
+.icono {
+   color:#fff;
+   font-size: 36px;
+   padding-top: 5px;
+   display:none;
+   justify-self:end;
+}
+
+.icono:hover{
+   cursor: pointer;
+}
+
+.menu {
+   justify-self:end;
+
+}
+
+nav a {
+   text-decoration: none;
+   font-size: 20px;
+   color:white;
+   cursor: pointer;
+   margin-right: 15px;
+}
+
+.hero {
+   width: 100%;
+   height: calc(100vh);
+   background: url(KDEPlasma.jpg) center no-repeat;
+   background-size: cover;
+   background-attachment: fixed;
+   
+}
+
+.menu.opened
+{ 
+   /* transform: translateX(0%); */
+   left:0px;
+   transition: left 1s;
+}
+
+@media screen and (max-width: 650px) {
+   .icono {
+      display:block;
+   }
+ 
+   .menu {
+      position:fixed;
+      top: 80px;
+      bottom: 0;
+      left: -200px;
+      width: 200px;
+      background: linear-gradient(
+         to bottom,
+         rgba(197, 170, 170, 0.6),
+         rgba(42, 9, 9, 0.6)) center no-repeat;     
+      transition: left 1s;
+   }
+   
+
+   nav a {
+      width: 95%;
+      display: inherit;
+      padding: 20px 10px;
+      border: 2px solid #fff;
+      border-radius: 5px;
+      margin:50px auto 0 auto;
+   }
+}

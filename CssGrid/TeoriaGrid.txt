@@ -1,0 +1,388 @@
+            CURSO CSS GRID BY ALEXCG DESIGN * Others
+
+Fuente: https://www.youtube.com/watch?v=k9K_3kuyKaI
+
+Intro: 
+Grid tiene algunas features extra que no tiene flex como autofit o minmax.Su propiedad gap crea un espaciado dinámicamente,sin importar si el elemento está en fila o columna
+Flex también tiene la propiedad gap,pero no todos los navegadores la soportan.
+
+Un supertruco de flexbox es usar margin-top:auto,lo cual manda al flex-item a la parte inferior.
+Otro truco para centrar algo que no tenga el 100% del width es con margin:0 auto;
+
+            VARIABLES EN CSS
+
+Las variables en CSS(también llamadas Custom Properties) permiten almacenar valores dentro de un propiedad personalizada(una propiedad con el nombre que yo quiera)
+Ese valor es cualquier valor permitido dentro de una propiedad CSS:
+:root {
+   --myShadow: 0px 5px 10px rgba(0,0,0,.5); <- cualquier valor que sea válido para una regla me valdrá
+}
+
+Tienen un alcance,que es el selector donde las defina(por eso se definen en el selector :root,porque el selector donde se declaran define su scope).Si bien :root equivale a html se usa :root porque tiene más especificidad             
+
+* Se declaran con --customName
+:root {
+   --primary:tomato;
+   --clipPath: circle(10% at top left);
+}
+Y se llaman con el método var(--customName);
+.square {
+   background-color: var(--primary);
+   clip-path: var(--clipPath);
+   transition: clip-path 1s;
+}
+Este método var() permite definir un segundo argumento por si no se encuentra la custom property:
+.square {
+   background-color: var(--primary,#fff);
+}
+Por último tienen especificidad,asi que puedo pisar las del :root fácilmente:
+.square:hover {
+   --clipPath:circle(150% at top left)
+}
+border: 10px solid currentColor; <- la propiedad currentColor hace referencia al color actual del elemento(y es lo mismo ponerla que no,pues si se omite por defecto se va a coger el color actual del elemento)
+
+            QUE ES CSS GRID ELEMENTOS QUE LO COMPONEN
+
+Es un modulo de diseño de cuadrícula que ofrece un sistema de diseño basado en cuadrículas,con filas y columnas,lo que facilita no tener que usar posicionamiento y flotantes(float).
+CSS Grid Layout es el sistema de diseño más potente disponible en CSS.Es un sistema bidimensinal,lo que significa que puede manejar tanto columnas como filas,a diferencia de flexbox.
+Ambos sistemas pueden trabajar y trabajan en armonia.
+
+Mediante la propiedad display: grid puedo crear un Grid Container.Es el comienzo de todo,igual que lo es display:flex.
+Grid Container es un contenedor en el cual va a haber grid-items(de igual forma que en un flex-container hay flex-items).
+Este Grid container es el padre directo de todos los elementos que estén dentro de la cuadricula.
+Estos elementos son los grid-items.
+
+Las Grid Lines son las lineas que dividen toda la estructura de la rejilla,las hay tanto verticales como horizontales.
+La numeración empieza desde el 1,1 y siempre va a haber una linea mas que celdas,asi una rejilla de 4 columnas por tres filas tendra numeros del 1 al 5 para las 4 columnas y 1 al 3 para las tres filas
+
+El Grid Track es el espacio entre dos lineas de cuadricula adyacentes.Puede ser horizontal o vertical(diria que son dos celdas consecutivas,en cualquier direccion)
+
+Grid Cell es el espacio entre dos filas adyacentes y dos lineas de cuadricula de columnas adyacentes.Es una sola "unidad" de la cuadricula(los bordes de un grid-item)
+
+Grid Area es el espacio total rodeado por cuatro lineas de cuadricula.Un área de cuadrícula puede estar compuesta de cualquier numero de celdas de cuadricula(Basicamente es un area cualquiera:4x4,2x3,3x3,... todo esto son areas)
+
+PRACTICA UNO: diseñar un header,main,aside y footer.
+
+Empezamos creando la template: 
+ <div class="container">
+      <div class="item1">Header</div>
+      <div class="item2">Main</div>
+      <div class="item3">Sidebar</div>
+      <div class="item4">Footer</div>
+   </div>
+
+Fijate que poner a esta clase 'container' en display:grid creará 4 filas con todo el alto posible.Esto es porque por defecto un Grid Container no va a coger columnas hasta que se lo especifique.
+En este caso hemos definido la clase container con un alto de 600px,asi que serán 4 filas de 150px.Si no tuviera un alto establecido cogerá el minimo necesario.
+Fijate que un Flex Container pone ya en columnas y display:flex todo,pero el Grid Container no ha movido el display:block de sus hijos aún.
+
+.container {
+   height:600px;
+   width:800px;
+   display:grid;
+   grid-template-columns:40px 40px 40px 40px; <- aqui ya si cambiará el display block de los div que tiene como hijos
+}
+
+Una vez que tengo un Grid Container definido hay que darle las columnas.Puedo pasarle medidas en bruto,porcentajes,y un sinfin de formas más.
+
+IMPORTANTE: Puedo ver en las DevTools de los navegadores las GridLines clickando en el botón grid.Esto es muy útil para ubicarme.
+
+[class^="item"]{} <- selector para todas las clases que empiecen por item
+.gallery-item:nth-of-type(1){} <- el primer gallery-item
+
+:root{
+   --fondo:#fff; <- las variables css van definidas en :root siempre
+}
+
+            GRID TEMPLATE COLUMNS Y ROWS
+
+Grid-template-columns & grid-template-rows admiten varias medidas como argumento:
+
+1- puedo usar pixeles o medidas en bruto:
+grid-template-columns: 100px 50px 100px 50px;
+
+2- Puedo usar porcentajes:
+grid-template-columns: 25% 25% 25% 25%;
+Puedo hacer lo mismo para las filas:
+grid-template-rows: 50% 50%; 
+* Fijate que si defino 4 columnas y 2 filas y solo le doy 4 elementos me va a quedar la fila de abajo libre.Va a respetar lo que se le diga.
+* Desde ya puedo observar que puedo crear lo mismo que hace flex pero con grid y una sola fila.Y que es mucho más potente.
+
+3- Puedo usar fracciones: dado que pixeles y porcentajes no es muy útil para algo complejo puedo usar fracciones: 
+grid-template-columns: 1fr 1fr 1fr 1fr;
+grid-template-rows: 1fr 1fr 1fr;
+Esto seria una GridArea de 4x3
+
+4- Puedo usar repeat(repeatTimes,content):
+grid-template-columns: repeat(1,25%) <- crea una columna del 25% de ancho,dejando el 75% de la derecha libre
+grid-template-columns: repeat(4,1fr) 20% <- puedo agregar más argumentos aparte del repeat.En este caso cogerá el 20% del 100% para esa quinta columna y con el 80% restante crea 4 fracciones
+
+grid-template-columns: repeat(2,1fr 2fr) 50%; <- repeat no tiene porque llevar un único argumento.En este caso coge el segundo 50% para la quinta columna y con el primer 50% creará 4 columnas siendo la 1 y la 3 la mitad de anchas que la 2 y la 4. 
+
+Podria hacerlo con pixeles también:
+grid-template-columns: repeat(2,50px 100px) <- 
+
+* Puedo hacer lo mismo para las rows.La potencialidad de CssGrid es inmensa.
+
+               GRID-ITEMS (HIJOS DEL GRID CONTAINER)
+
+Igual que en FlexBox hay muchas propiedades para los items o hijos.Fijate que en un Grid Container tengo que conocer bien la cuadricula(empieza en 1,1 y siempre tendra columnas+1 y filas+1):
+
+1- Propiedades grid-column-start | end y grid-row-start | end permiten decir al elemento cuantas columnas y/o filas coger
+.item1{
+  grid-column-start:1;
+  grid-column-end:5;   //hasta aqui cogeria toda la primera fila
+  grid-row-start:1;
+  grid-row-end:3; //ahora coge dos filas al completo            
+}
+* Fijate lo fácil que ha sido crer un layout
+
+.item3{
+   background: #064d50;
+   grid-column-start: 4;
+   grid-column-end: 5;
+   grid-row-start: 2;
+   grid-row-end: 4;
+}
+
+.item4{
+   background: #91016d;
+   grid-column-start: 1;
+   grid-column-end: 4;
+   grid-row-start: 3;
+   grid-row-end: 4 ;
+}
+2- Propiedades shorthand grid-column y grid-row: Dado que con grid-column-start,grid-column-end,grid-row-start y grid-row-end se vuelve un poco verboso el código puedo usar un primer shortcut que es grid-column: startingGridLineNumber/endingGridLineNumber y grid-row: startingGridLineNumber/endingGridLineNumber;
+
+.item3 {
+   grid-column:4/5;
+   grid-row:2/4;
+} <- mucho más rápido 
+
+3- También hay una propiedad 'span' que permite especificar el numero de saltos de GridLines en cualquier direccion(grid-column o grid-row)(que justo coincide con cuantos bloques quiero que ocupe):
+
+.item1{
+   grid-column:span 4; <- avanza 4 saltos(como va hasta el 5 es como si dijera ocupa 4 bloques)
+} <-puedo ver que queda en una linea
+
+Es importante entender que es solo para la linea.Es decir que no puede decirle span 6 y esperar que salte de fila.Asi que si hay salto de linea no puedo usar 'span' y tengo que usar otras propiedades.
+
+.item2{
+   grid-column:span 3;
+}
+.item3{
+   grid-column:span 1;
+   grid-row:span 2; <- también puedo pasarlo hacia la fila
+}
+.item4 {
+   grid-column:span 3;
+}
+Por último hay un atajo para ir hasta el final de la columna o fila:
+item1 {
+   grid-column: 1/-1; con -1 va hasta el final,no tengo que saber si eran 4 o 7 columnas
+}
+
+            PROPIEDAD GRID GAP(ahora ya solo gap)
+
+Puedo usar la propiedad grip-gap(ya es solo gap):
+grid-gap:15px; <- con un solo argumento es espaciado entre columnas:
+grid-gap: 15px 10px <- con dos el primero es entre filas y el segundo entre columnas
+* ahora es todo sin grip: gap: 40px 10px
+Grid-gap es el shortcut de grip-column-gap + grid-row-gap:
+grid-column-gap:40px;
+grid-row-gap:10px; 
+equivale a 
+grip-gap:40px 10px;
+
+                     PROPIEDAD AUTO
+
+Con la propiedad auto puedo decir a una columna o fila que coga el tamaño de forma automática(teniendo en cuenta gaps)
+Asi pues decir grid-template-columns: 100px auto 100px; creará tres columnas,dos de 100 y la otra el resto del Grid Container en el eje X
+
+               PROPIEDAD MAX-CONTENT
+
+Con la propiedad max-content puedo especificar a una columna que solo coga hasta el máximo de su contenido:
+grid-template-columns: max-content auto max-content; <- esto iría muy bien para una navbar con el logo a la izquierda,un input central o menuLinks alineado a la izquierda y el avatar a la derecha               
+
+                     PROPIEDAD GRID
+
+De igual forma que grip-gap/gap es un shortcut para la separacion puedo resumir grid-template-columns y grid-template rows en uno solo,que es grid:
+grid: repeat(4,1fr)/repeat(3,1fr);
+
+                  PROPIEDAD FINAL GRID-AREA
+
+Grid-area permite acortar grid-column y grid-row(que a su vez acortaban grid-column-start y grid-colum-end) en una sola linea:
+
+grid-area: 1/1/2/5  
+Sintaxis /InicioRow/InicioColumna/FinRow/FinColumna(ojo que cambia el orden); 
+Hay que tener cuidado que el orden cambia un poco.Esto equivaldria a:
+grid-column:1/5 +
+grid-row:1/2 
+
+            FLUJO DE CSS GRID - PROPIEDAD GRID-AUTO-FLOW
+
+Grid tiene por defecto un flujo de fila(puedo ver que va asi 1-2-3-4,de izquierda a derecha,luego van en fila y no en columna,pues tendría que ir hacia abajo,como la escritura japonesa)
+Esto se puede ajustar con la propiedad grid-auto-flow(column | row).Es como flex-direction para FlexBox.
+grid-auto-flow:row; <- no veré cambios pues ya está asi por defecto
+grid-auto-flow: column; va hacia abajo el flujo en vez de hacia la derecha.
+
+* Con el valor 'dense' Grid intentará llenar la cuadrícula si hay espacios vacios(por jemplo definiendo cuatro columnas y poniendo el elemento 1 header que ocupe de la 1 a la 3 y el segundo elemento bajandolo de fila,ya me dejé dos columnas vacias ).Dense expandirá ese header a las 4.Puede ir sola o acompañada de un flujo.
+grid-auto-flow: row dense; <- orientación normal pero si hay huecos los llenas.
+
+            PROPIEDADES GRID-AUTO-ROWS Y GRID-AUTO-COLUMNS
+
+Estas propiedades definen el comportamiento para los elementos que salgan del GridContext(de la cuadrícula que yo he definido).Si por ejemplo defino una cuadrícula de 3x3 pero tengo 15 elementos me van a sobresalir 6.Son propiedades para estos 6 elementos:
+grid-auto-columns: 150px; <- las columnas que salgan de la cuadricula tendran 150px de ancho.
+grid-auto-rows: 200px las filas sobrantes tendrán 200px de alto.
+* Fijate que para que sobresalgan elementos tendré que meter de más en el HTML.             
+
+            GRID-TEMPLATE-AREAS-PRACTICA TRES
+
+La propiedad grid-template-areas permite definir un esquema gráfico con aliases y puntos para columnas vacias.Estos aliases los puedo asignar con grid-area: alias;
+Fijate que tendré que definir las columnas y filas antes de asignar los alias al esquema,pues necesito declarar si es un Grid 4x3 o 5x4,etc...
+Los aliases son simplemente variables,no tienen nada que ver con clases CSS:
+
+.gallery {
+   width:90%;
+   margin: 0 auto; <- alinea todo al centro,quedate con este tip
+   min-height: 100vh;
+   padding: 80px 0;
+   display: grid;
+   grid-template-columns: repeat(3,1fr);
+   grid-template-rows:repeat(4,1fr);
+   align-items:center;
+   grid-template-areas:
+   ".     card1     ."
+   "card2   .      card3"
+   ".     card4      .";
+}            
+
+Estos card1 card2,... son que despues tengo que asignar con la propiedad grid area(recuerda el punto para las columnas vacias);
+
+.gallery-item:nth-of-type(1){
+   grid-area:card1;
+} <- el primer elemento que encuentre con la clase gallery-item será card1 e ira arriba centrado
+
+.gallery-item:nth-of-type(2){
+   grid-area:card2;
+} <- fijate que nivel tiene la peña asinto.El segundo va en la linea central a la izquierda
+* Dominar CSSGrid va a darme un potencial ridículamente poderoso.
+
+Otro ejemplo con elementos que abarcan mas de una columna y/o fila:
+grid: 1fr 2fr 1fr/repeat(4,1fr); <- 4x3 con la fila 2 doble de alta
+grid-template-areas:
+"header header header header"
+"main main main aside"
+"footer footer footer aside"; <- solo me faltaría asignarles el nombre a esos GridItems.
+
+Puedo darles nombres como menu-lateral en vez de aside,admite guiones.
+
+            MEDIA QUERIES CON GRID-TEMPLATE-AREAS
+
+Grid-template-areas permite ser usado en una media query,dandole aún más potencialidad:
+
+IMPORTANTE: las media query necesitan ir abajo del todo por la cascada de css
+@media screen and (max-width:678px) {
+   .container {
+      grid: 1fr 1fr 1fr/ repeat(3,1fr) <- pasamos de 4x3 a 3x3 
+      grid-template-areas:
+      "header header menu-lateral"
+      "main main menu-lateral"
+      "footer footer menu-lateral"
+  }
+} <- esto es realmente ridículo tio:Haz este ejercicio.
+Propiedades como auto-fit o auto-fill permiten incluso que no tenga que usar mediaqueries,ya que quedará responsivo.
+
+            MINMAX AUTO-FIT Y AUTO-FILL
+
+minmax(100px,200px) recibe dos parámetros.El primero es el valor mínimo y el segundo el máximo.
+Fijate que van separados por una coma.
+Esta funcion se suele usar en el repeat,ya que valores como 1fr o 25% no siempre me darán lo que quiero:
+
+grid-template-columns: repeat(3,minmax(100px 200px)); <- crea tres columnas con un minimo de 100 y un maximo de 200
+* No sólo puedo usar medidas en bruto,puedo usar fracciones,porcentajes,viewports:
+grid-template-columns: repeat(3,minmax(15%,25vw)) <- o fracciones
+
+Puedo observar como crear una galeria de imagenes(se recomienda ver la suya) con esta propiedad minmax() se haría fácilmente.
+
+También puedo pasarle min-content y max-content(que será su contenido)
+Si tuviera un texto que ocupara 500px con min-content se redimensonaria a 200px,pero con max-content se quedaría en 500px
+grid-template-columns: repeat(2, minmax(min-content, max-content));
+
+* Puedo usar repeticiones y mezclarlas con minmax,simplemente es como una propiedad:
+grid-template-columns: repeat(2, minmax(80px,1fr) minmax(20px 50px));
+
+AUTO_FILL
+auto-fill: auto-fill crea tantos elementos con respecto a la medida que se le da y capacidad del contenedor(con respecto a ambos!).
+Si le doy una medida de 100px a este valor y el contenedor mide 800px creará 8 elementos.Siempre necesita otro segundo argumento con este valor
+
+* Puedo pasarle varios valores:
+grid-template-columns: repeat(auto-fill,100px)
+Esta propiedad adquiere máximo potencial juntandola con minmax:
+grid-template-columns: repeat(auto-fill,minmax(300px,500px)) <- llenalo con un minimo de 300px por columan y un maximo de 500
+
+AUTO_FIT: auto-fit es muy poderosa.Ajustara el contenido al contenedor.Si declaro 6 GridItems ajustará el contenedor Grid para 6 items.
+Tanto auto-fit como auto-fill van dentro del método repeat.
+grid-template-columns: repeat(auto-fit,150px);
+Dado que no se ve muy bien la diferencia lo mejor es hacer su proyecto de Galleria de Imagenes.
+Fijate que si despues quiero mover una columna(como el ejercicio que declaramos 4 div y quiero tres a la izquierda y la 4 a la derecha) tengo que usar auto-fill y no auto-fit:
+.container{
+   display:grid;
+   grid-template-columns: repeat(auto-fill,150px); <- tiene que ser auto-fill!
+   gap: 20px;
+}
+
+[class^="item"]{
+   font-size: 35px;
+   border: 4px solid var(--secondary);
+   border-radius: 10px;
+   background:var(--primary);
+   display: grid;
+   align-items: center;
+   justify-content: center;
+}
+
+[class^="item"]:nth-of-type(4){
+   grid-column:auto/-1; <- puedo mover de posicion(porque pone auto?,porque no sabe el numero de GridLine)
+}
+
+             ALINEAR Y ORDENAR ELEMENTOS
+
+Es practicamente lo mismo,tengo justify-items, align-items, order,justify-self... 
+En cuanto al order todos tienen el order en 0 por defecto.Esta propiedad es para los hijos.
+
+
+         PROPIEDADES DEL PADRE O CONTAINER
+
+* Justify-content y align-content alinean el GridContainer.No le cambiará el height o width de los GridItems:
+
+.container {
+  justify-content: center;
+  align-content: center;
+} <- esto alineara el contenedor en ambos ejes,algo básico
+* NOTA: Para centrar un GridContainer se usan justify-content y align-content en center.
+
+* Ajustar Justify-items y align-items si cambia el width(el primero) y height(el segundo) de los items,puesto que ambos por defecto están en stretch(estirar),estirando la GridCell mas allá de su contenido.
+
+justify-items:stretch; <- por defecto
+justify-items: center; <- esto va a hacer una especie de max-content ajustando el ancho de la GridCell al contenido.Puede que no me interesen sus resultados
+
+      PROPIEDADES DE LOS GRID ITEMS
+
+¿Que pasa si quiero solo reducir el contenido de un hijo?Pues que tendría que usar justify-self(que por defecto estará en stretch,logicamnente) o align-self.      
+
+.grid-item:nth-of-type(1){
+   justify-self:center; <- solo va a reducir el ancho de ese GridItem
+}
+
+Order: puedo ordenar los Grid Items.Por defecto todos están con order:0.Admite negativos:
+
+* Si pongo a éste en 1 como es mayor que los otros dos se pondrá el tercero.
+.grid-item:nth-of-type(1){
+   order:1;
+}
+.grid-item:nth-of-type(2){
+   order:0;
+}
+.grid-item:nth-of-type(3){
+   order: -1;
+}
+Puedo usar números negativos.Saber ordenar los GridItems de un Container es vital.

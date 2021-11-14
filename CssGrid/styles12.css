@@ -1,0 +1,63 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+:root {
+   --clipPath: circle(80% at top left);
+   --transition: clip-path 1s;
+   --primary:tomato;
+   --secondary:gray;
+}
+
+body {
+   min-height: 100vh;
+   background: linear-gradient(45deg, rgba(255, 255, 255, 0.5),rgba(255, 255, 255, 0.8))
+   ,url("https://cdn.pixabay.com/photo/2021/09/04/16/51/girl-6598198_960_720.jpg") center;
+   background-size: cover;
+}
+
+.container {
+   width: 90%;
+   margin: 0 auto;   
+   display: grid;
+   grid-template-columns: repeat(auto-fill,150px);
+   grid-auto-flow: row;
+   gap: 20px;
+}
+
+[class^="item"]{
+   font-size: 35px;
+   width: 150px;
+   height: 50px;
+   border: 4px solid var(--secondary);
+   border-radius: 10px;
+   background:var(--primary);
+   display: grid;
+   align-items: center;
+   justify-content: center;
+   clip-path: var(--clipPath);
+   transition:var(--transition);
+}
+[class^="item"]:hover {
+ --clipPath: circle(150% at top left);
+}
+
+[class^="item"]:nth-of-type(4){
+   grid-column:auto/-1;
+}
+
+
+.caja{
+   width: 100px;
+   height: 100px;
+   background: var(--primary);
+   clip-path: var(--clipPath);
+   transition:var(--transition);
+}
+
+.caja:hover {
+   --clipPath: circle(150% at top left);
+
+}

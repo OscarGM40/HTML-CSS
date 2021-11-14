@@ -1,0 +1,49 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+:root {
+   --pink:pink;
+   --yellow:yellow;
+   --black:black;
+}
+
+body {
+   min-height: 100vh;
+   background: linear-gradient(
+      145deg, rgba(125,125,200,0.4),rgba(44,155,210,0.8)),url("https://cdn.pixabay.com/photo/2019/10/19/12/22/hot-air-balloon-4561273_960_720.jpg") center no-repeat;
+   background-size:cover;
+
+}
+
+.container {
+   width: 90%;
+   height: 100%;
+   margin:0 auto;
+   position:relative;
+   top:40px;
+   border:8px ridge var(--yellow);
+   display: grid;
+   grid-template-columns: repeat(8,1fr);
+   grid-template-rows: repeat(5,1fr);
+   gap:10px 5px;
+   padding: 10px 5px;
+
+}
+
+[class^="item"]{
+   border:3px solid var(--black);
+   border-radius: 5px;
+   font-size: 30px;
+   background: var(--pink);
+   display: grid;
+   align-items: center;
+   justify-content: center;
+   padding: 5px 0px;
+}
+
+[class^="item"]:nth-of-type(3){
+   grid-area:4/1/5/-1;
+}

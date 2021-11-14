@@ -1,0 +1,34 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+.circle {
+   border-radius: 50%;
+   height: 200px;
+   width: 200px;
+   background: tomato;
+   margin: 20px;
+   /* animation es un shorthand  de name | duration | iteration-count |*/
+   animation: muevete 3s 4 alternate;
+   animation-name: muevete;
+   animation-duration:3s;
+   animation-iteration-count: 4;
+    animation-direction: alternate; 
+   animation-fill-mode: forwards;
+}
+
+@keyframes muevete {
+   0%{
+      background-color: black;
+      transform: translateX(0%) scale(100%);
+   }
+   50%{
+      transform:translateX(50%) scale(150%);
+   }
+   100%{
+      background-color:slateblue;
+      transform:translateX(100%) scale(100%);
+   }
+}

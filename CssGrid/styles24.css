@@ -1,0 +1,181 @@
+.wrapper {
+   display: grid;
+   gap:20px 15px; 
+}
+
+.top {
+   display: grid;
+   gap:20x 30px;
+   grid-template-areas: 
+   "hero hero cta1"
+   "hero hero cta2";
+}
+
+.hero {
+   background: url("https://eneax.github.io/learn-css-grid/24-Responisve-Website/images/taco.jpg")center no-repeat;
+   background-attachment: fixed;
+   background-size:cover;
+   grid-area:hero;
+   min-height: 400px;
+   padding: 50px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: flex-start;
+   margin-right: 20px;
+}
+
+.hero > * {
+   background-color: yellow;
+   padding: 5px;
+}
+
+.cta {
+   background-color: yellow;
+   display: flex;
+   flex-direction: column;
+   align-content: center;
+   align-items: center;
+   justify-content: center;
+   
+
+}
+.price {
+   font-size: 60px;
+   font-weight: 300;
+   margin: 0;
+   padding: 0;
+}
+
+.cta p {
+   margin: 0;
+   padding: 0;
+}
+
+.cta1 {
+   grid-area: cta1;
+   margin-bottom: 20px;
+}
+
+.cta2 {
+   grid-area: cta2;
+}
+
+
+#menu-list {
+   display: grid;
+   list-style: none;
+   grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+   justify-content: space-between;
+   margin: 0;
+   padding: 0;
+   gap:20px;
+}
+
+#menu-list li a{
+ display: block;
+ text-transform: uppercase;
+ text-align: center;
+ text-decoration: none;
+ font-size: 30px;
+ padding: 10px 50px;
+ background-color:yellow;
+}
+
+.features{
+   display: grid;
+   grid-template-columns: repeat(auto-fit,minmax(100px,max-content));
+   gap:0px 15px;
+}
+
+.feature {
+   background-color:rgba(87, 25, 3, 0.335);
+   outline: 1px solid black;
+   padding: 10px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+} 
+
+.feature>.icon{
+   font-size: 50px;
+}
+
+.about {
+   display: grid;
+   grid-template-columns: max-content 1fr;
+}
+
+.about__mockup {
+   /* width: 100%; */
+   width: 40vw;
+}
+
+.about__details {
+   display: grid;
+   align-content: center;
+   justify-content: start;
+}
+
+.about__details h2{
+   font-size: 1.8em;
+}
+.about__details>p{
+   font-size: 18px;
+   margin: 5px;
+}
+
+.about__details button {
+   display: inline-block;
+   color:rgb(255, 157, 0);
+   border:2px solid black;
+   font-size: 20px;
+   border-radius: 6px;
+   padding: 10px 30px;
+   margin-top: 10px;
+   width: 70%;
+   position: relative;
+   transition: background-color .5s, color .5s, box-shadow .5s;
+   
+}
+.about__details button:hover {
+   color:white;
+   background-color: rgb(255, 157, 0);
+   transition: background-color .5s, color .5s ,box-shadow .5s;
+   box-shadow: 1px 1px 10px rgba(233, 114, 17, 0.897)
+}
+
+.about__details>button:after {
+   content:"→";
+   position:absolute;
+   top: 3px;
+   font-size: 26px;
+}
+
+.gallery {
+   display: grid;
+   grid-template-columns:  repeat(auto-fill,minmax(250px,max-content));
+   gap:20px;
+   justify-content: center;
+   align-items: center;
+}
+
+.gallery>h2{
+   grid-area: 1/1/2/6;
+   grid-column: 1/-1;
+   justify-content: center;
+   justify-self: center;
+
+}
+
+.gallery > img{
+   border-radius: 5px;
+   outline:1px solid rgba(243, 10, 10, 0.582);
+   transition: transform 500ms ease-in-out;
+}
+
+.gallery > img:hover {
+   transform: scale(1.1);
+   transition: transform 400ms ease-in-out;
+}

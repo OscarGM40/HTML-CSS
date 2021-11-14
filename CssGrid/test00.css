@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: tomato;
+  --secondary: darkgray;
+  --transition: clip-path 1s;
+  --clipPath: circle(30% at top left);
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.8)
+    ),
+    url("https://cdn.pixabay.com/photo/2015/01/07/15/51/woman-591576_960_720.jpg") center no-repeat;
+    background-size: cover;
+}
+
+.container {
+   width: 95%;
+   margin: 0 auto;
+   display: grid;
+   grid-template-columns: max-content 1fr auto;
+   grid-template-rows: 55px;
+   background: var(--primary);
+   border-radius: 10px;
+   gap:10px 15px;
+   padding: 0 15px;
+   justify-content: center;
+   grid-auto-flow: row;
+}
+
+.item{
+   font-size: 30px;
+   border-radius: 10px;
+   color:var(--secondary);
+   border: 5px solid customColor;
+   display: grid;
+   align-items: center;
+}
+.item:nth-of-type(2) {
+   margin: 0 50px;
+   justify-content: end;
+}

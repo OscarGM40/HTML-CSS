@@ -1,0 +1,56 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+:root {
+   --primary: orange;
+   --secondary:red;
+   --clipPath: circle(90% at top right);
+   --transition: clip-path 1.2s;
+   --imagen01: linear-gradient(to bottom,rgba(146, 106, 106, 0.5),rgba(97, 4, 4, 0.8)),url("https://cdn.pixabay.com/photo/2015/02/02/11/08/office-620817_960_720.jpg") center no-repeat;
+}
+
+body {
+   min-height: 100vh;
+   background: var(--imagen01);
+   background-size: cover;
+   display: grid;
+   align-content: center;
+}
+
+.container {
+   width: 80%;
+   height: 150px;
+   margin: 0 auto;
+   border: 3px solid var(--secondary);
+   border-radius: 5px;
+   display: grid;
+   grid-template-columns: repeat(auto-fill,150px);
+   grid-auto-flow: row dense;
+   gap:50px 15px;
+   align-content: center;
+   justify-content: center;
+}
+
+[class^="item"]{
+   width: 150px;
+   outline:4px solid tomato;
+   border-radius: 10px;
+   display: grid;
+   align-items: center;
+   justify-content: center;
+   font-size: 30px;
+   clip-path: var(--clipPath);
+   transition: var(--transition);
+}
+
+[class^="item"]:hover{
+ --clipPath:circle(150% at top right);
+}
+
+[class^="item"]:nth-of-type(4){
+   grid-column: auto/-1;
+}
+
+

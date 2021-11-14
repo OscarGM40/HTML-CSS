@@ -1,0 +1,35 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   width: 100vw;
+   height: 100vh;
+   background: linear-gradient(
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3)
+   ),url("https://cdn.pixabay.com/photo/2021/09/12/20/05/waterfall-6619377_960_720.jpg") center;
+   background-size: cover;
+}
+
+.container {
+   padding: 50px;
+   display: grid;
+   grid-template-columns: 200px 400px;
+   grid-template-rows: 50px 100px;
+   gap:15px;
+   grid-auto-rows: 200px;
+}
+
+[class^="item"]{
+   border: 5px solid rgba(101, 161, 11, 0.418);
+   border-radius: 5px;
+   font-size: 35px;
+   background-color: rgba(76, 0, 130, 0.288);
+   display: grid;
+   justify-content: center;
+   align-items: center;
+   
+}

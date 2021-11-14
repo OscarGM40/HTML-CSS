@@ -1,0 +1,29 @@
+Fuente: https://www.youtube.com/watch?v=6437QeuvbpY&t=197s
+
+En Boxicons tengo iconos vectoriales(busco el icono y ver su svg).Cuando tenga el svg creo un archivo con extension .svg(por ejemplo en la carpeta assets).
+
+Notas: 
+1ª: puedo acceder a los hijos de un elemento con children[position]
+    let submenu = element.children[1];
+
+2ª: puedo agregar o quitar clases con classlist.toggle()
+ menu.addEventListener("click", () => {
+    list.classList.toggle("menu__links--show");
+  });   
+
+3ª: tambien puedo remover clases con element.classList.remove() o añadir con element.classList.add(). Fijate que element.classList.toggle() lo que hace es llamar a remove() y a add() entre bambalinas.
+  list.classList.add("menu__links--show");
+  list.classList.remove("menu__links--show");
+
+4ª: puedo añadir eventos en el resize de la ventana y comprobar su ancho con window.innerWidth:
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 800) {
+      deleteStyleHeight();
+
+5ª: puedo saber la altura de un elemento con element.clientHeight o su ancho con element.clientWidth:
+    // la propiedad elemento.clientHeight me devuelve la altura de ese elemento
+    if (submenu.clientHeight === 0) {
+    // elemento.scrollHeight es la altura minima para que exista un elemento
+        height = submenu.scrollHeight;
+      }
+      submenu.style.height = `${height}px`;

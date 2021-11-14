@@ -1,0 +1,72 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+:root {
+   --yellow: orangered;
+   --black:black;
+}
+
+body {
+   height: 100vh;
+   background: linear-gradient(
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.6)),
+      url("https://images.unsplash.com/photo-1507602368706-321eeafaf53b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&ixid=MnwxfDB8MXxyYW5kb218MHx8dnx8fHx8fDE2MzM4ODQ1OTU&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300") center no-repeat;
+      background-size: cover;
+      padding-top: 40px;
+}
+
+.container {
+   width: 95%;
+   margin: 0 auto;
+   border-radius: 10px;
+   border: 3px solid var(--yellow);
+   display: grid;
+   gap:15px 15px;
+   justify-content: center;
+   padding: 30px 5px;
+   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+/* fijate como queda perfecto con repeat(auto-fit, minmax(350px,1fr) <- mejor darle la fraccion y no porcentajes,siempre va a calcularperfectamente él la fracción */
+
+.album__artwork{
+   width: 160px;
+   height: 160px;
+}
+
+.album {
+   display: grid;
+   padding: 15px;
+   grid-template-columns: 160px 1fr;
+   /* grid-template-columns: 1fr 1fr;
+   ojo con darle 1fr 1fr que van a ser dos columnas iguales.Siempre que pueda usar otras cosas como max-content o 160px,dado que queria esa imagen con un size fijo en todo momento */
+   align-items: center;
+   gap:10px;
+   border-radius: 5px;
+   border: 2px solid black;
+}
+
+.album__details {
+   display: flex;
+   flex-direction: column;
+   /* justify-content: center; */
+   align-items: center;
+   color: rgb(66, 61, 61);
+}
+
+.album__details h2{
+   font-size: 18px;   
+   padding: 5px;
+}
+
+.album__details .album__artist{
+   font-size: 14px;   
+}
+
+.album__details .album__desc{
+   padding-top: 10px;
+   font-size: 14px;   
+}

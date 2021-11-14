@@ -1,0 +1,143 @@
+
+
+
+      TRANSITIONS & ANIMATIONS IN CSS BY ALEXCG
+
+
+Fuente: https://www.youtube.com/watch?v=RxJe2x3g9eI
+
+TRANSICIONES: Las transiciones son la primera forma de animar un elemento.Básicamente son pasar de un estado A a otro B en un determinado tiempo(fijate que está en 0 por defecto con lo que realmente no hay transición).
+Las transiciones se declaran con la propiedad transition,que es un shorthand de 
+transition-property + transition-duration + transition-delay + transition-timing-function
+Esto es más importante de lo que parece
+
+IMPORTANTE: 
+1- todos los elementos tienen un estado inicial
+2- No todas las propiedades son animables(puedo ver esto en Animatable properties in CSS)
+3- Debe de haber un disparador para que suceda la transición
+
+Los disparadores suelen ser pseudoclases,como :hover , :target, :active
+
+Se recomienda especificar qué propiedad se va a animar con la transicion:
+
+transition: background-color 2s; <- ojo con animar shorthands como background cuando solo quiero animar el background-color no debo pasarle el shorthand background
+
+transition: transform 1s; <- es muy común animar transformaciones
+
+No todo es animable,un margin-left:auto no es animable,el navegador no sabe calcular esto
+
+Al renderizar un HTML se pasa por un primer proceso de Layout,un segundo de Paint y un tercero de Composite,poner transition: all gastará demasiados recursos.Siempre se anima la propiedad que quiero animar.
+
+Si necesitará animar más de una propiedad se separan con comas:
+transition: color 2s, transform 1s; 
+
+La propiedad transition-timing-function define la curva de aceleracion de la transition.Por defecto es ease:
+ease: aumenta la velocidad hacia la mitad,disminuyendo en el final
+ease-in: comienza lentamente,acelerando gradualmente hasta completarse
+ease-in-out:comienza lentamente,acelera y luego disminuye otra vez
+ease-out:comienza rápidamente,disminuyendo con el tiempo
+linear:velocidad uniforme
+Tambien puedo usar curvas de Bezier con cubic-bezier()
+Puedo usar la web https://cubic-bezier.com para crear funciones personalizadas
+
+PRACTICA ESPELUZNANTE MODAL CON CSS PURO COMO EL CHOCOLATE
+
+Necesitaré una imagen cualquiera.La hago clickable con un enlace que debe apuntar al id del modal:
+
+<a href="#modal>
+  <img src"image.jpg" class="imagen">
+</a>
+* Hasta aqui nada nuevo,pero fijate que cuando haga click en la URL se concatenará index.html#modal. 
+
+<div class"modal" id="modal">
+  <img imagenal100%>
+  <a class="modal__close">X</a>
+</div>
+* De esta segunda parte el id debe coincidir con el href del enlace y aparte necesitaré otro enlace o boton para cerrarlo.
+
+IMPORTANTE:para apuntar al modal tengo que usar .modal:target, es decir que la <anchor> le agrega la pseudoclase :target a ese elemento si le hace focus por la URL.
+El resto es puro CSS,si se le hace target lo muestro y si hago click en el Closer lo cierro:
+
+El modal que ocupe todo con un fixed,fijate que el background a media opacidad es importante,
+.modal {
+   position:fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background:rgba(0, 0, 0, 0.561);
+   display: flex;
+   transition: clip-path 1.5s;
+   clip-path: circle(00% at top right);
+}
+
+.modal:target {
+   clip-path: circle(150% at top right);
+}
+Fijate que el otro enlace que es la X lo que hace es quitarle a .modal el :target.
+
+   <a href="#" class="modal__close">X</a> <- simplemente le retiramos la clase
+
+Diria que con un poco ayuda de JS puedo crear una Gallery Image custom.
+
+IMPORTANTE:fijate que puedo apuntar a una subclase de un elemento A y hacer algo en otro elemento B.Eso amplia mucho el poder de CSS:
+
+.container:hover .element { <- cuando haga hover en el container voy a hacer algo,pero a element
+}
+
+.modal:target .modal__picture <- cuando saque el modal le puedo hacer lo que quiera al primer enlace/foto(ridiculamente poderoso)
+
+Realmente CSS es impresionante.
+
+            ANIMACIONES
+
+Las animaciones en CSS permiten animar el cambio de estado de un elemento a otro,su diferencia con una transición es que esta no necesita un disparador para que se ejecute,además de que podemos animar distintos estilos a la vez, y controlar todo el flujo de la animación desde que inicia hasta que termina.
+De nuevo solo se pueden animar a los elementos que son animables en las propiedades idem.
+
+* No es recomendable cambiar muchos estilos en una animación,por el consumo de recursos,sobre todo si estoy en la capa de Layout            
+
+Para usar una animación debo definirla con @keyframe identifier {} y llamarla en el elemento que quiero animar con la propiedad animation.
+Fijate que en una animación tengo muchísimo más control que en una transición,puedo incluso cambiar varios estilos por cada keyframe
+
+La propiedad animation es un shorthand de estas 6 propiedades:
+
+animation: muevete 2s ; <- esto es lo minimo necesario
+animation: identifier 2s 4 alternate
+
+1- animation-name: muevete 2s;
+2- animation-duration:2s;
+
+3- animation-iteration-count: infinite | number(fijate que la puedo dejar en infinite)
+
+4- animation-direction: normal | alternate | reverse | alternate-reverse(con alternate la animacion es de ida y vuelta,es una propiedad muy importante.Reverse empieza del 100% hacia el 0%,alternate-reverse empieza desde atras y con ida + vuelta)  
+
+5- animation-delay: determina el tiempo de espera para que la animación se ejecute  
+
+6- animation-fill-mode: define que va a pasar antes de que empiece la animacion o despues de que termine.Por defecto es none(no pasa nada ni antes ni despues).
+
+Las opciones son backwards(que debe ir acompañada de un delay),con backwards aplicará los estilos del keyframe al 0%(del estado inicial de la animacion) durante ese delay,es por esto que necesita un delay para poder ver esos estilos.
+Con forwards el elemento se queda como termine,se queda con los estilos del estado final de la animacion .
+También tengo 'both' que es la unión de bakcwards y forwards.
+
+Como extra puedo ir a https://loading.io/css/ para ver varios spinners con su código css.Todas ellas son animaciones
+
+En https://csstriggers.com puedo ver segun las capas Layout,Paint y Composite cuanto consume cada propiedad CSS
+
+* IMPORTANTE: fijate que la sintaxis a veces puede dar lugar a errores:
+transform lleva todas las transformaciones juntas en la misma propiedad(si defino dos solo ejecutaré la segunda por la cascada CSS) <- importante,se definen todas en una única regla.Además no van separadas por comas
+
+@keyframes muevete {
+   0%{
+      background-color: black;
+      transform: translateX(0%) scale(100%);
+   }
+   50%{
+      transform:translateX(50%) scale(150%);
+   }
+   100%{
+      background-color:slateblue;
+      transform:translateX(100%) scale(100%);
+   }
+}
+
+Fijate que deberia hacerme un curso de Node y otro de Jon Mircha

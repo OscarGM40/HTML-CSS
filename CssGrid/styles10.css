@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --yellow: yellow;
+  --orange: orange;
+  --black: black;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.4)
+    ),
+    url("https://cdn.pixabay.com/photo/2012/06/19/10/32/owl-50267_960_720.jpg")
+      center center no-repeat;
+  background-size: cover;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5,auto);
+  gap:15px 10px;
+}
+
+[class^="item"] {
+  background: var(--orange);
+  border: 4px solid var(--black);
+  border-radius: 10px;
+  font-size: 35px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.item:nth-of-type(20) {
+  grid-area:1/2/2/5;
+}
