@@ -1,0 +1,55 @@
+			CONVERTIR CUALQUIER TEMPLATE EN COMPONENTES PARA ANGULAR
+
+					SECCION 2
+
+Vamos a usar GitHubPages para el deploy y Firebase como Db.En el siguiente video esta el comprimido con la template.Descargarlo.
+
+Dejo la template en Descargas y en Templates.
+
+					VIDEO 07 INICIO PROYECTO
+
+Me copio el contenido de assets al proyecto.Abrimos la template y puedo ver que el header y el footer parecen el mismo,y el body va cambiando.
+NOTA:esto no lo sabía hasta ahora,pero puedo copiar en el index.html que trae Angular(donde esta el <app-root>)  enlaces en el <head> hacia adentro del proyecto:
+
+<head>
+  <meta charset="utf-8">
+  <title>Portafolio</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="assets/img/urku-ico.svg">
+  <link rel="stylesheet" href="assets/css/aurora-pack.min.css">
+  <link rel="stylesheet" href="assets/css/aurora-theme-base.min.css">
+  <link rel="stylesheet" href="assets/css/urku.css">
+</head>
+
+<body>
+  <app-root></app-root>
+  <script src="assets/js/svg4everybody.min.js"></script>
+  <script>svg4everybody();</script>
+</body>
+
+* Da igual que assets/css/... esté dentro de <app-root>.Tengo visión sobre ellos.Y lo mismo para scripts.En el index.html de la app de Angular puedo apuntar tanto hacia afuera como hacia adentro.Genial.Y muy importante.
+
+			VIDEO 11 COMPONENTE DEL ENCABEZADO O HEADER
+
+Creo el componente header y el footer en la carpeta shared.Copio del portfolio-masonry.html las mismas etiquetas.Le cambio el año al footer(fijate que esto es importante,nunca dejar fechas en duro).
+
+			VIDEO 13 COMPONENTE BODY- PRIMERA PÁGINA
+
+Fijate que necesito la primera página,la primera ruta.Voy a copiar toda la <section> en este componente(ng g c pages/portfolio --skip-tests -is).Le quito el div de las categorias.
+NOTA:cada componente únicamente debería contener información única.Por ejemplo,la etiqueta <section> la voy a repetir en cada página si la dejo alli.Entonces lo que hay que hacer es sacarla de alli:
+<app-header></app-header>
+<section class="ae-container-fluid rk-main">
+  <app-portafolio></app-portafolio>
+</section>
+<app-footer></app-footer>
+De nuevo fijate que esto es importante.
+
+				SECCION 03 PAGINAS,RUTAS Y CONSTANTES
+
+Esta sección está enfocada a crear las diferentes páginas/rutas que tendrá la app,siguiendo los estandares de Angular.
+
+				VIDEO 18 CREANDO LA PÁGINA DE PRODUCTO
+
+
+
