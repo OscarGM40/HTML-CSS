@@ -51,5 +51,102 @@ Esta sección está enfocada a crear las diferentes páginas/rutas que tendrá l
 
 				VIDEO 18 CREANDO LA PÁGINA DE PRODUCTO
 
+Creo la pagina/componente para el producto y para el about:
+ng g c pages/about ...
+Traigo su html de la template proporcionada.
+
+				VIDEO 20-21 CREANDO LAS RUTAS Y LA NAVEGACIÓN
+
+Puedo crearme un archivo app.routing.ts, el cual siempre será una clase con el decorador @ngModule().
+Alli creo las rutas pertinentes en el arreglo de tipo Routes:
+
+const routes: Routes = [
+  {path: 'home', component: PortafolioComponent},
+  {path:'about', component: AboutComponent},
+  {path: 'item', component: ItemComponent},
+  {path: '**', pathMatch: 'full', redirectTo: 'home'}
+]
+Fijate que el path '**' es buena idea pasarle pathMatch a full en vez del que está por default.
+
+NOTA: Faltará traerse el RouterModule y usarlo en los imports.Es el RouterModule y su método forRoot o forChildren el que especifica/declara si son rutas padres o hijas.
+@NgModule({
+  imports: [ 
+    RouterModule.forRoot(routes)
+  ],
+})
+export class AppRoutingModule { }
+
+Angular siempre cargará los componentes de estas rutas desde el primer momento.Sin embargo estos componentes podrían cargar de forma perezosa otras rutas hijas.
+
+IMPORTANTE:puedo ver que no ha sido suficiente con ese imports y traerlo en otro módulo,aún no reconoce la etiqueta <router-outlet> Esto tiene mucho sentido ya que no he exportado de mi app.routing el modulo RouterModule.
+
+@NgModule({
+  imports: [ 
+    RouterModule.forRoot(routes)
+  ],
+  exports: [
+    RouterModule
+  ]
+})
+export class AppRoutingModule { }
+
+Diría que sta haciendo,lo traigo, lo configuro y lo exporto,,con lo que no es lo mismo que importarlo desde el app module.En principio cada archivo .routing se trae el modulo,lo configura y lo exporta ya configurado(confirmar esto).
+
+NOTA:tengo una app con esto bastante claro.En el RouterModule.forRoot(routes) tiene la carga perezosa de dos modulos(/login y /register por un lado y /dashboard por otro,el cual podria cargar mas hijos en lazy load):
+
+const routes: Routes = [
+  {
+    path: 'auth',
+    loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
+  },
+  {
+    path:"dashboard",
+    loadChildren: () => import("./protected/protected.module").then(m => m.ProtectedModule),
+    canActivate:[ ValidarTokenGuard ],
+    canLoad:[ValidarTokenGuard]
+  },
+  {
+    path:"**",
+    redirectTo:"auth"
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes,{
+    useHash:false
+  })],
+
+Dado que es el padre usará forRoot pero ya está cargando en lazy load los dos modulos.Los módulos de rutas hijos no los pongo porque son muy simples.Parece un gran approach.
+Sea como sea todo modulo de rutas ha hecho lo mismo,importar RouterModule,configurarlo con forRoot o forChildren y EXPORTARLO
+Sigamos con el curso.
+
+NOTA:para que funcion bien la directiva routerLinkActive es mejor usar paths como home y no con un ''.
+
+ASi que voy por el header y el footer cambiando los href y poniendo la clase active en el routerLinkActive.
+
+En cuanto a los items los cargaremos dinámicamente.Esto es un item:
+   <a routerLink="/item"
+        class="rk-item ae-masonry__item">
+        <img src="assets/img/project-1.jpg" alt="">
+        <div class="item-meta">
+          <h2>Essential Stationery</h2>
+          <p>Branding</p>
+        </div>
+      </a>
+
+NOTA:cuando e crea una ruta un servidor por defecto intenta entrar al index.html de esa ruta,asi pues, al crear la ruta /home el servidor apache o nginx va a intentar servir el index.html de /home.Fijate que esta carpeta no existe.
+
+Usualmente si tenemos acceso al servidor podemos modificar la configuración del apache o del nginx,pero como la serviremos en gitHubPages tengo que usar el hash.
+
+Al agregar el hash las rutas pasarán de:
+dominio/item/1 
+a esta otra 
+dominio/#/item/1
+
+Fijate que agregar el hash hace que los servidores no intenten buscar en un directorio,y siempre seguiremos en el mismo index.html.Nunca nos salimos del archivo,con lo que Angular nunca pierde el control
+
+			SECCION 04 PETICIONES HTTP-SERVICIOS Y ANIMACIONES
+
+Crearemos un archivo JSON interno al que haremos peticiones.Fijate que es una gran estrategia.Crearemos un servicio para las peticiones y retocaremos alguna animación por CSS(o directamente las crearemos).
 
 
