@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
@@ -8,6 +9,8 @@ import { PortafolioComponent } from './pages/portafolio/portafolio.component';
 import { AboutComponent } from './pages/about/about.component';
 import { ItemComponent } from './pages/item/item.component';
 import {  AppRoutingModule } from './app.routing';
+import { InterceptorService } from './interceptors/interceptor.service';
+import { LoadingComponent } from './shared/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +19,21 @@ import {  AppRoutingModule } from './app.routing';
     FooterComponent,
     PortafolioComponent,
     AboutComponent,
-    ItemComponent
+    ItemComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+  /*   {
+    provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorService,
+    multi: true
+  } */
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

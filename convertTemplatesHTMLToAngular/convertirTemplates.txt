@@ -149,4 +149,210 @@ Fijate que agregar el hash hace que los servidores no intenten buscar en un dire
 
 Crearemos un archivo JSON interno al que haremos peticiones.Fijate que es una gran estrategia.Crearemos un servicio para las peticiones y retocaremos alguna animación por CSS(o directamente las crearemos).
 
+					VIDEO 25 CREANDO UN ARCHIVO JSON
 
+Vamos a crear un json que me permita parametrizar mi aplicación.Puedo comprobar si la sintaxis está correcta con cualquier parseador inline para JSON:
+{
+  "titulo": "Oscar's Portfolio",
+  "email": "oscargm28@hotmail.com",
+  "nombre_corto": "Oscar",
+  "pagina_autor": "http://oscargm28.github.io/",
+  "facebook": "https://www.facebook.com/oscargm28",
+  "twitter": "https://twitter.com/oscargm28",
+  "instagram": "https://www.instagram.com/oscargm28/",
+  "equipo_trabajo": []
+}
+NOTA.En angular en la carpeta assets/data/data.json es el lugar ideal para dejarlo.
+			VIDEO 26 SERVICIO PARA CONSULTAR ESTE JSON
+
+Un servicio se puede utilizar para compartir información global a toda mi aplicación,o también para manejar cierta lógica y abstraerla de la clase de un componente.Normalmente son estas dos sus utilidades.
+Como queremos compartir esta data hay que crear un servicio:
+ng g service services/
+
+NOTA:antes los services habia que especificarlos en los providers(igual que un interceptor),pero ya no es necesario desde @Injectable
+NOTA: cualquier cosa con el decorador @Injectable puede inyectarse,es por ello que lo tiene el servicio.
+
+Para poder hacer peticiones voy a necesitar el modulo HttpClientModule
+Esperate al 10 al menos antes de empezar a buscar algo y habla con los de ViewNext
+
+Puedo realizar peticiones a un servidor externo,esto es lo más común,pero también puedo realizar peticiones a mi misma aplicación,es decir a mi mismo servidor:
+Dado que estoy dentro de app y quiero apuntar a app/assets/data/data.json tengo que hacer un get a assets/data/data.json:
+
+  public getInfo() {
+    return this.http.get('assets/data/data.json');
+  }
+
+			VIDEO 27 CREANDO INTERFAZ PARA LA RESPONSE
+
+Realmente es muy sencillo crear la interfaz para el json anterior.Visito quicktype.io con el json y le doy un nombre.Alojo el archivo en interfaces/data.interface.ts:
+export interface InfoPagina {
+  titulo?: string;
+  email?: string;
+  nombre_corto?: string;
+  pagina_autor?: string;
+  facebook?: string;
+  twitter?: string;
+  instagram?: string;
+  tumblr?: string;
+  equipo_trabajo?: any[];
+}
+Fijate que tuve que ponerlos opcionales(memoriza este error y su solución).Sea como sea ya tengo el tipado.
+  public getInfo() {
+    return this.http.get('assets/data/data.json')
+    .subscribe( (resp:InfoPagina) => {
+      this.cargada = true;
+      this.info = resp;
+    });
+  }
+
+		VIDEO 28 USANDO EL SERVICIO PARA REEMPLAZAR INFORMACIÓN EN LA TEMPLATE
+
+Dado que tengo un par de propiedades en el servicio y ya está haciendo él las peticiones puedo usarlas en las templates:
+
+En el header.component.ts inyecto _infoPagina:InfoPaginaService
+  <a routerLink="home">{{_infoPagina.info.titulo}}
+
+   <span class="ae-u-bolder">{{ anio }} {{_infoPagina.info?.titulo}}</span>All Right Reserved.</p>
+    </div>
+    <div class="ae-grid__item item-lg-4 au-xs-ta-center">
+      <a target="_blank" [href]="_infoPagina.info?.facebook" class="rk-social-btn ">
+        <svg>
+          <use xlink:href="assets/img/symbols.svg#icon-facebook"></use>
+        </svg>
+      </a>
+      <a target="_blank" [href]="_infoPagina.info?.twitter" class="rk-social-btn ">
+Y en el footer hago lo mismo
+
+				VIDEO 29 AGREGANDO ANIMACIONES A NUESTRAS PAGINAS
+
+La manera más fácil de agregar animaciones es usar animate.css.Asi pues uso su CDN y agrego un fadeIn a las cards del equipo y a cada item.
+
+				SECCION 05 UTILIZANDO FIREBASE 
+
+Vamos a crear un pequeño servicio REST en Firebase.Será una RealTime Database,la creo con todo en false pero despues le cambio read a true.Write se quedará en false,con lo que solo yo puedo escribir.
+
+En esa RealTime Database creo una coleccion equipo y tres documentos.Para saber la URL loñ tengo arriba,pero hay que agregar .json(al estar en modo lectura open puedo verlo desde un navegador).La url que me quedó es:
+https://angulartemplatesfh-default-rtdb.europe-west1.firebasedatabase.app/equipo.json
+
+Para las imagénes necesitaré el Storage de ellos,asi que lo habilito y pongo solo lectura ese storage.Nadie podrá escribir en el.Perfecto.
+A la izquierda de rules tengo archivos.Alli puedo subir archivos desde un botón.Puedo elegir otras o las mismas.
+
+NOTA:Firebase creará una URL para cada imagen(con un token como queryParam).DEbo copiar ese vinculo https y agregarlo como campo(lo llamo url)
+Puedo observar que fácil ha sido crear una REST incluso con imagenes.
+
+Como siempre me creo el servicio y la interfaz:
+  
+  public getEquipo(){
+      return this.http.get<Equipo[]>('https://angulartemplatesfh-default-rtdb.europe-west1.firebasedatabase.app/equipo.json')
+      .subscribe( (resp) => {
+      this.cargada = true;
+      this.equipo = resp;
+   });
+  }
+e itero sobre esa respuesta en la template:
+<div *ngFor="let member of _infoPagina?.equipo"
+  class="animate__animated animate__fadeIn ae-grid__item item-lg-4 ae-kappa au-mb-3">
+  <img [src]="member?.url" alt="" class="au-mb-3">
+    <h5 class="ae-u-bolder au-mt-2">{{member?.nombre}}</h5>
+    <p class="ae-u-bolder au-mb-3">{{member?.subtitulo}}</p>
+    <p class="au-lg-ta-left au-mb-3 au-pl-4 au-pr-4">{{member?.frase}}</p>
+    <a target="_blank" href="https://twitter.com/{{member?.twitter}}" class="ae-u-bolder au-underline">{{member?.twitter}}</a>
+  </div>
+
+			SECCION 06  BACKUPS Y CARGAR INFORMACIÓN A FIREBASE
+
+Esto es algo que tengo que acostumbrarme a hacer(los backups de las bases de datos).
+
+			VIDEO 37 CARGANDO INFORMACIÓN A FIREBASE
+
+Para hacer el backup voy a la RealTime DB y en el icono de los tres puntos verticales puedo exportar la db como JSON.
+Fernando me proporciona dos JSON(productos.json y productos_idx.json).Éste último tiene menos información.Vamos a cargar ambos json.
+
+Voy a la DB y creo un nodo 'productos'(fijate que parece que tengo que crearlo desde la URL).En esta nueva colección importo el productos.json(puedo comprimir y expander los datos con los iconos)
+De igual manera creo otro nodo 'productos_idx' e importo el otro json
+
+				VIDEO 38 CREANDO EL SERVICIO DE PRODUCTOS
+
+Es momento de leer de la coleccion productos_idx para crear la template dinámicamente.Creo un nuevo servicio,con su petición y saco la data a una propiedad,etc:
+ng g s services/productos --skip-tests
+
+@Injectable({ providedIn: 'root' })
+export class ProductosService {
+    cargando:boolean = true;
+    productos:Producto[] = [];
+
+  constructor(private http: HttpClient) { 
+    this.cargarProductos();
+  }
+
+  private cargarProductos() {
+    return this.http.get<Producto[]>(`${base_url}/productos_idx.json`)
+    .subscribe( (resp) => {
+      this.cargando = false;
+      this.productos = resp;
+    });
+  }
+Fijate que ahora para iterar tengo un pequeño problema,ya que durante unos instantes será undefined.Esto se arregla con el operador ?:
+
+      <a *ngFor="let producto of productosService?.productos" 
+      routerLink="/item/{{producto.cod}}"
+        class="rk-item ae-masonry__item animate__animated animate__fadeIn">
+        <img src="assets/productos/{{producto.url}}.jpg" alt="">
+        <div class="item-meta">
+          <h2>{{producto?.titulo}}</h2>
+          <p>{{producto?.categoria}}</p>
+        </div>
+      </a>
+
+Perfecto.Vamos a crear un loading para esos instantes:
+
+					VIDEO 41 AÑADIENDO UN LOADING 
+
+Fernando proporciona un enlace a CodePen con un Loading,con su html y su css..Habrá que crear un componente para ese loading pues.@s,con su html y su css.
+Lo retoco al gusto y lo muestro condicionalmente.Perfecto:
+  <app-loading *ngIf="productosService?.cargando"></app-loading>
+
+			SECCION 07 PANTALLA DE PRODUCTO Y BUSQUEDA
+
+En esta seccion vamos a crear una busqueda de productos y la pantalla de un producto.Sección interesante según el Dios Fernando Herrera.
+
+				VIDEO 44 ENVIAR PARÁMETROS POR LA URL
+
+Hay varias formas de crear enlaces a urls dinámicas.Una sería simplemente 
+
+ <a *ngFor="let producto of productosService?.productos" 
+      routerLink="/item/{{producto.cod}}"
+
+Otra forma es montando toda la ruta con un arreglo.Al ser un arreglo  la propiedad necesita las llaves cuadradas:
+[routerLink]="['/item',producto?.cod]"
+
+Obviamente hay que definir la ruta para que recoja este param dinámico con un nombre:
+{path: 'item/:cod', component: ItemComponent},
+
+Y para leer el param nos suscribimos al activatedRoute:
+constructor(private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.params.subscribe(params => this.cod = params['cod']);
+  }
+Lo meto en la propiedad cod,por ejemplo.Ya sólo quedaría llamar al servicio y traer un sólo producto en base a ese id.
+
+				VIDEO 45 SERVICIO PARA OBTENER UN PRODUCTO
+
+Habrá que crear un servicio que apunte a la colección 'productos' que tiene más datos referentes a un producto que la 'productos_idx'.
+Esta colección necesitara otra interfaz.
+
+NOTA: se dice backtick y no backtips.Al usar backticks puedo usar template literals,pudiendo inferir código en ese string
+
+IMPORTANTE: fijate que es muy repetitivo ir poniendo todo con optional chain operators:
+   <h1 class="ae-u-bolder rk-portfolio-title ">{{productoService?.producto?.producto}}</h1>
+      <p class="ae-theta rk-portfolio-category ">{{productoService?.producto?.categoria}}</p>
+    </div>
+Una solución a esto es coger todo el bloque de HTML y pintarlo condicionalmente a cuando exista esa propiedad:
+<section *ngIf="productoService.producto">
+   <h1 >{{productoService.producto.producto}}</h1>
+   <p >{{productoService.producto.categoria}}</p>
+</section>
+De esta forma siempre va a existir el producto,asi que no necesito el optional chain operator.
+Yo lo dejaré asi:
+<section class="ae-container-fluid ae-container-fluid--full"
+ *ngIf="productoService?.producto"> <- Genial
+Itero sobre el html y sustituyo las imagenes,etc.Sin embargo la imagen main necesita algo más de trabajo
