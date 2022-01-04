@@ -356,3 +356,130 @@ Yo lo dejaré asi:
 <section class="ae-container-fluid ae-container-fluid--full"
  *ngIf="productoService?.producto"> <- Genial
 Itero sobre el html y sustituyo las imagenes,etc.Sin embargo la imagen main necesita algo más de trabajo
+
+			VIDEO 46-47 ACTUALIZANDO PAGINA PRODUCTO
+
+Realmente es sencillo,apunto a la otra base de datos con el id como argumento(el cod):
+  public cargarProducto(cod: string) {
+    return this.http.get<ProductoItem>(`${base_url}/productos/${cod}.json`).pipe(
+      delay(50)
+    )
+      .subscribe((resp) => {
+        this.cargando = false;
+        this.producto = resp;
+      });
+  }
+}
+
+Y en la ruta dinámica llamo al servicio en cada cambio de ruta:
+  constructor(private activatedRoute: ActivatedRoute,
+    public productoService: ProductoService) {
+    this.activatedRoute.params.subscribe(params => this.cod = params['cod']);
+    this.productoService.cargarProducto(this.cod);
+  }
+
+Cada producto tiene tres imagenes,pero la más grande está puesta como una clase.No queremos esto.
+IMPORTANTE: para usar un estilo inline en Angular al que inferirle una variable hay que usar la directiva [ngStyle].Ejemplo:
+<header class="..." [ngStyle]="{'background-image':'url(assets/productos/'+cod+'/main.jpg)'}"
+Truco: para inferir algo cortar con '++' y dentro de los ++ meto la variable('+cod+'
+
+			VIDEO 48 CREANDO LA PÁGINA DE BÚSQUEDA
+
+Al presionar la lupa queremos que busque(en productos??).De momento capturemos el texto de ese input(que está en el header).
+IMPORTANTE: fijate que está en un <form> el input y va a hacer refresh por naturaleza.habría que importar un módulo de formularios para inferir el preventDefault a los forms,pero para algo tan sencillo mejor quitamos el form y usamos una referencia local:
+
+  <form class="rk-search">
+        <input
+          type="text"
+          placeholder="Buscar..."
+          id="urku-search"
+          class="rk-search-field"
+          >
+        <label for="urku-search">
+          <svg>
+            <use xlink:href="assets/img/symbols.svg#icon-search"></use>
+          </svg>
+        </label>
+  </form>
+NOTA: CAmbio <form> por un <div> (la etiqueta <form> es tanto semántica,pues indica un formulario, como presentacional,pues es de tipo bloque para que pueda albergar controles de bloque también(un elemento inline no puede tener uno de bloque)
+Asi que un form es un div semántico,una caja.Importante esto,asinto.
+
+Como siempre creo una ref y en el keyup.enter me traigo su valor:
+  <input
+          type="text"
+          placeholder="Buscar..."
+          id="urku-search"
+          #txtSearch
+          (keyup.enter)="search(txtSearch.value)"
+          class="rk-search-field"
+          >
+Al introducir un termino válido el usuario redireccionaré al usuario a esa ruta(fijate que puedo hacer lo mismo en mi app cuando busquen me da igual donde estén,idiota):
+ search(termino:string){
+    if(termino.length < 1){
+      return;
+    }
+    this.router.navigate(['/search',termino]);
+  }
+
+Creo un componente nuevo,que va a ser una ruta dinámica,luego hay que crear esa nueva ruta:
+  {path: 'search/:termino', component: SearchComponent},
+De nuevo me suscribo en el cambio de parámetro para realizar la petición.
+IMPORTANTE:fijate que ya tengo un arreglo con todos los productos,podría filtrar sobre ese arreglo
+
+		VIDEO 50 LÓGICA DEL PROCESO DE CARGA DE TODOS LOS PRODUCTOS Y POSTERIOR FILTRADO DE LOS MISMOS- CREAR UNA PROMESA DE CUALQUIER COSA 
+
+Este video probablemente sea el más importante.Fijate que yo no puedo filtrar sobre un arreglo de productos si ese arreglo aún se está pidiendo.Esto es un error que puede ser complicado de ver,pero es sencillo de arreglar.
+
+La solución es crear una Promesa con el getProductos,de forma que pueda esperar a que los productos se carguen todos,ante de filtrar.Fijate que fue mucho más importante de lo que yo pensaba la ubicación del resolve:
+
+  private cargarProductos() {
+    return new Promise<void>((resolve, reject) => {
+      this.http.get<Producto[]>(`${base_url}/productos_idx.json`)
+        .subscribe((resp) => {
+          this.cargando = false;
+          this.productos = resp;
+          resolve();
+        });
+    });
+  }
+
+Y esta promesa se ha creado para esto,para que si no existe el arreglo se espere(fijate que reornar una new Promise hace que tenga que suscribirme a esa promesa,resolverla con .then.Es como un Observable,tengo que dispararla.Genial
+
+  public filtrarProductosAsync(termino: string) {
+    termino = termino.toLocaleLowerCase();
+    if(this.productos.length === 0) {
+      this.cargarProductos().then( () => {
+        this.filtrarProductos(termino);
+      });
+    }else{
+      this.filtrarProductos(termino);
+    }
+  }
+  
+Filtrar productos simplemente barre con un filter + includes:
+  private filtrarProductos(termino: string) {
+    this.productosFiltrados = [];
+    this.productosFiltrados = this.productos.filter(producto => producto.titulo.toLocaleLowerCase().includes(termino) || producto.categoria.toLocaleLowerCase().includes(termino));
+  }
+
+			SECCION 08 SUBIR APLICACIÓN A GITHUBPAGES
+
+Puedo usar el paquete http-server para probar una aplicación en pre-producción(tras hacer el build).También podría usar live-server,por ejemplo.
+
+NOTA: no confundir el paquete serve(que sirve para levantar un json como un backend REST,y necesita apuntar a un json(sintaxis serve file.json) con el paquete http-server que levanta un index.html en un navegador web(y no necesita apuntar a un .html,solo hay que ir hasta la carpeta y ejecutar 'http-server -o'
+
+NOTA: Selectores útiles
+:first-child: primer hijo del elemento sobre el que apunto
+:last-child: último hijo 
+:nth-child(n): hijo numero n del elemento sobre el que apunto
+:nth-last-child(n): último hijo numero n(empieza desde atras)
+:first-of-type : primer hijo del mismo tipo(<div> <div /> </div)
+:last-of-type: último hijo del mismo tipo sobre el que apunto
+:nth-of-type(n): hijo enésimo de cualquier tipo 
+:nth-last-of-type(n)
+:empty: elementos sin contenido
+:not(x): not match by x selector,que no sea del tipo...
+:target para las <a>
+::first-line <- primera linea del contenido
+::first-letter <- primera letra del contenido
+

@@ -11,6 +11,7 @@ import { ItemComponent } from './pages/item/item.component';
 import {  AppRoutingModule } from './app.routing';
 import { InterceptorService } from './interceptors/interceptor.service';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { SearchComponent } from './pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoadingComponent } from './shared/loading/loading.component';
     PortafolioComponent,
     AboutComponent,
     ItemComponent,
-    LoadingComponent
+    LoadingComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
