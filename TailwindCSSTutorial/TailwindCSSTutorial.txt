@@ -152,3 +152,92 @@ shadow-outline
 shadow-none
 
 NOTA: Tailwind trabaja por defecto con CssGrid,aunque también puede hacerlo con Flex,pero por defecto usa grid.
+
+
+   						VIDEO 02 GRID CON TAILWIND
+ 
+				GRID TEMPLATE COLUMNS
+
+Si quiero establecer un sistema de columnas con tailwind puedo usar un grid layout con las clases grid-cols-{number}.Sintaxis:
+ 
+grid-cols-1	grid-template-columns: repeat(1, minmax(0, 1fr));
+grid-cols-2	grid-template-columns: repeat(2, minmax(0, 1fr));
+grid-cols-3	grid-template-columns: repeat(3, minmax(0, 1fr));
+grid-cols-4	grid-template-columns: repeat(4, minmax(0, 1fr));
+
+Para poner un contenedor en grid primero tengo que usar la clase grid:
+<div class="grid grid-cols-3 gap-4">
+    <div class="bg-red-400">Col1</div>
+    <div class="bg-red-400">Col2</div>
+    <div class="bg-red-400">Col3</div>
+  </div>
+  
+Gap:puedo espaciar con gap.Si uso gap espaciará tanto en el eje x como en el eje y.Si quiero puedo usar gap-x ó gap-y  para espaciar distinguiendo entre columnas y filas:
+gap-4 <- es equivalente a gap-x-4 + gap-y-4
+
+			GRID COLUMN START/END - COLUMN SPAN
+
+Obviamente puedo dar más longitud a algunas columnas.Para ello tengo las clases auxiliares col-start,col-end y col-span:
+<div class="grid grid-cols-6 gap-4">
+  <div class="col-start-2 col-span-4">01</div>
+  <div class="col-start-1 col-end-3>02 <- fijate que podria usar col-span-2
+  <div class="col-start-7 col-span-2">03</div>
+  <div class="col-start-1 col-end-7>04</div>
+</div>
+
+						GRID RESPONSIVE
+
+Recuerda que en dispositivos móviles casi con toda probabilidad querré otro layout.Lo puedo realizar fácil con las clases para breakpoints:
+
+<div class="grid grid-cols-1 sm:grid-cols-3"> <- empiezas en una columna y cuando llegues a 640px ya si pasas a 3.Desde luego este framework es perfecto.
+
+Fijate que fácil creo un sistema de 3 columnas responsivo:
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1 mb-4" >
+
+						GRID TEMPLATE ROWS
+
+IMPORTANTE: 12 es el máximo de columnas que trae por defecto el sistema de Grid de Tailwind(aunque puede ampliarse).
+Bien,si quiero trabajar con filas puedo usar la clase grid-rows-{n},obviamente sobre un sistema grid:
+ <div class="grid grid-rows-2 md:grid-rows-4 grid-flow-col gap-4">
+   <div class="bg-orange-300">Row1</div>
+   <div class="bg-orange-300">Row2</div>
+   <div class="bg-orange-300">Row3</div>
+   <div class="bg-orange-300">Row4</div>
+ </div>
+
+Esto va a crear 4 filas desde 768 y más abajo 2 filas, pues está en flow-col y se wrapearán.Puedo observar que me respeta las filas.
+
+				GRID ROW-START ROW-END Y ROW-SPAN
+
+De igual manera que con las col puedo especificar medidas para una row:
+<div class="grid grid-rows-3 grid-flow-col gap-4">
+  <div class="row-span-3 ...">01</div>
+  <div class="col-span-2 ...">02</div>
+  <div class="row-span-2 col-span-2 ...">03</div>
+</div>
+
+					GRID AUTO FLOW
+
+Para controlar la direccion puedo usar la clase grid-flow-{direction}:
+
+grid-flow-row	grid-auto-flow: row;
+grid-flow-col	grid-auto-flow: column;
+grid-flow-row-dense	grid-auto-flow: row dense;
+grid-flow-col-dense	grid-auto-flow: column dense;
+
+Obviamente hay mucho más que investigar,pero puedo crear un layout de 2x5 por ejemplo sin apenas esfuerzo(grid grid-rows-2 grid-cols-5):
+  
+<h1 class="mb-2 text-lg tracking-wider">Practica 01</h1>
+  <div class="grid grid-rows-2 grid-cols-5 gap-4 ">
+    <div class="col-start-1 col-span-1 bg-orange-300">Col 1</div>
+    <div class="col-span-1 bg-orange-300">Col 2</div>
+    <div class="flex items-center justify-center row-span-2 col-span-3 bg-orange-300">Col 3</div>
+    <div class="col-start-1 col-span-1 bg-orange-300">Col 1</div>
+    <div class="col-span-1 bg-orange-300">Col 2</div>
+   </div>
+
+				VIDEO 03 INSTALACION CON NPM
+
+
+
+
