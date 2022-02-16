@@ -238,6 +238,124 @@ Obviamente hay mucho más que investigar,pero puedo crear un layout de 2x5 por e
 
 				VIDEO 03 INSTALACION CON NPM
 
+Realmente sólo es seguir su documentación.Aqui veremos la forma sin framework:
+
+Instalo tailwind en modo dev y creo su config file:
+
+>npm install -D tailwindcss
+>npx tailwindcss init
+
+Lo configuro segun environment:
+
+module.exports = {
+  content: ["./src/**/*.{html,js}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+Añado las directivas tailwind en un archivo src/input.css:
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+Por último dejo el compilador activado:
+npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
+
+* Fijate que puede que no quiera que se llame input.css o que compile a /dist.Por lo demás desde luego es bastante sencillo.
+
+					PARTE 4 FLEXBOX EN TAILWIND
+
+Source: https://www.youtube.com/watch?v=sfTBUHR9pyA&list=PLPl81lqbj-4JdoHDiERR2ptkw9zRggXAL&index=5&ab_channel=Bluuweb
+
+Para trabajar con flexbox lo primero será usar la clase 'flex' en el contenedor padre.Por defecto está en la posición flex-direction:row,pero puede cambiarse a column | row-reverse | column-reverse.
+
+En Tailwind se usarán estas clases para manejar la direccion de los hijos en el contenedor:
+flex-row	flex-direction: row;
+flex-row-reverse	flex-direction: row-reverse;
+flex-col	flex-direction: column;
+flex-col-reverse	flex-direction: column-reverse;
+
+Para manejar como intentarán encajar los items se usa la propiedad flex-wrap:
+
+flex-nowrap  	flex-wrap: nowrap; <- por defecto.Intentarán caber todos en una linea,encogiendose si es necesario y no respetando las medidas de los hijos
+flex-wrap	    flex-wrap: wrap; <- no intentarán caber en una fila,saltando a otra si es necesario 
+flex-wrap-reverse	flex-wrap: wrap-reverse; saltarán en orden reverso además
+
+Para controlar como los items hijos serán posicionados en el eje principal del contenedor tanto en una disposición flex como grid se usar justify-content:
+
+justify-start	justify-content: flex-start;
+justify-end	justify-content: flex-end;
+justify-center	justify-content: center;
+justify-between	justify-content: space-between;
+justify-around	justify-content: space-around;
+justify-evenly	justify-content: space-evenly;
+
+Para manejar como los items hijos serán alineados en base a su contenedor hijo se usa justify-items:
+
+justify-items-start	justify-items: start;
+justify-items-end	justify-items: end;
+justify-items-center	justify-items: center;
+justify-items-stretch	justify-items: stretch;
+
+Y para manejar individualmente a un hijo en concreto se usa justify-self:
+
+justify-self-auto	justify-self: auto;
+justify-self-start	justify-self: start;
+justify-self-end	justify-self: end;
+justify-self-center	justify-self: center;
+justify-self-stretch	justify-self: stretch;
+
+Lo mismo para align(content-items-self) y para place(content-items-self).
+NOTA:align-items tiene efecto siempre que el contenedor tenga un alto establecido
+
+Align-content alinea el contenido de un contenedor multi-row tanto flex como grid siempre que tenga espacio sobrante en el eje Y,similar a lo que hace justify-content.Esta propiedad no tiene efecto cuando hay solo una fila de items hijos en el contenedor (minimo dos para cualquiera de las dos distribuciones).
+NOTA:siempre que quiera trabajar con align-content tengo que usar flex-wrap
+
+Align se usará para ubicarlos en base a su eje secundario(siempre que tenga un alto establecido el contenedor)
+Con Place-content  se justifica y alinea el contenido a la vez
+Con place-items se justifica y alinean los items 
+Con place-self alineo y justifico un elemento hijo concreto.
+Place-content center es muy útil
+
+Por último tengo flex-basis que controla el size inicial de los hijos
+
+basis-0	flex-basis: 0px;
+basis-1	flex-basis: 0.25rem;
+basis-2	flex-basis: 0.5rem;
+basis-3	flex-basis: 0.75rem;
+basis-4	flex-basis: 1rem;
+basis-5	flex-basis: 1.25rem;
+basis-6	flex-basis: 1.5rem;
+
+Flex-grow que controlarán como creceránlos hijos:
+
+grow	flex-grow: 1;
+grow-0	flex-grow: 0;
+
+Y lo mismo para como encogerán con flex-shrink:
+
+shrink	flex-shrink: 1;
+shrink-0	flex-shrink: 0;
+
+Y con flex puedo controlar ambas:
+
+flex-1	flex: 1 1 0%;
+flex-auto	flex: 1 1 auto;
+flex-initial	flex: 0 1 auto;
+flex-none	flex: none;
+
+							VIDEO 05 NAVBAR RESPONSIVE 
+
+Fijate como ocultaré los enlaces en lg(1024px):
+  <div class="block lg:hidden">
+   ...todo oculto en 1024+
+  </div>
+Por lo demas nada importante pero recuerda que {breakpoint}:hidden es muy poderoso.
+
+					VIDEO 06 USAR TAILWIND CON REACT
+
 
 
 

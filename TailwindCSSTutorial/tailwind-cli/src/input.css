@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+
+@import url('https://fonts.googleapis.com/css2?family=Shizuru&display=swap');
+
+
+@layer base {
+  body {
+    @apply  bg-slate-300 font-lato;
+  }
+}
+@tailwind utilities;
