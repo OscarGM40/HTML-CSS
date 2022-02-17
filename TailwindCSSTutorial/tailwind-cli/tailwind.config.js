@@ -6,5 +6,8 @@ module.exports = {
       lato:["Lato","sans-serif"],
     },
   },
+/*   variants:{
+    borderWidth:["responsive","hover","focus"],
+  }, */
   plugins: [],
 };

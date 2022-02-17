@@ -356,6 +356,162 @@ Por lo demas nada importante pero recuerda que {breakpoint}:hidden es muy podero
 
 					VIDEO 06 USAR TAILWIND CON REACT
 
+Realmente es seguir la guia,creo un proyecto,me cambio a él:
 
+PASO UNO: crear proyecto React
+npx create-react-app my-project
+cd my-project
 
+PASO DOS: instalo Tailwind y sus dependencias(autoprefixer depende de postcss):
+npm install -D tailwindcss postcss autoprefixer <- fijate que son en -D
+npx tailwindcss init <- esto crea el archivo para configurar tailwind
 
+PASO TRES: configurar el archivo tailwind.config.js con lo necesario:
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}", <- agregar esto
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+IMPORTANTE: fijate que tanto tailwind como postcss como autoprefixer incluso van en modo dev,luego no ocuparán nada en el bundle.Genial.
+
+PASO CUATRO: agregar las directivas tailwind e importar ese archivo al proyecto:
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+						CORE CONCEPTS OF TAILWIND
+
+HOVER,FOCUS AND OTHER PSEUDOCLASSES FOR STATES:
+Para los states engo las clases hover | focus| o active.Por ejemplo:
+<button class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 ...">
+
+También tengo first | last | odd | even para apuntar al primer hijo,al último,a los impares o a los pares:
+ <li class="flex py-4 first:pt-0 last:pb-0">
+  <tr class="odd:bg-white even:bg-slate-100">
+* TAmbién tiene only-child,empty o first-of-type
+
+Form states: tiene pseudoclases para formularios como required,invalid o disabled
+ <input type="text" value="tbone" disabled class="mt-1    focus:outline-none  invalid:border-pink-500 invalid:text-pink-600 ...
+
+Tiene otras para agrupar como group-focus, group-active, or even group-odd.
+También tiene before o after(tailwind automáticamente añade content:"" asi que no tengo que hacerlo,pero si quiero otro puedo usarlo):
+before:content-[''] before:block ...
+
+Puedo apuntar a la propiedad placeholder:
+placeholder:italic placeholder:text-slate-40
+Puedo apuntar a un input type file con file:
+  file:mr-4 file:py-2 file:px-4
+Puedo apuntar al marker o bullet de una lista con marker:
+marker:text-sky-400
+
+Puedo apuntar a texto seleccionado por el usuario con selection:
+<div class="selection:bg-fuchsia-300 selection:text-fuchsia-900"> <- muy bonito,pone el fondo en rosita claro y la letra en rosa fuerte.
+NOTA:el modifier 'selection' es heredado automáticamente,asi que puedo ponerlo en el body para que toda la app lo herede
+<body class="selection:bg-pink-300">
+
+También hay modificadores para la orientación del dispositivo:
+<div class="portrait:hidden">
+    <!-- ... -->
+  </div>
+  <div class="landscape:hidden">
+Para un documento al ser imprimido:
+<article class="print:hidden">
+Orientación del texto(rtl o ltr):
+div class="ltr:ml-3 rtl:mr-3">
+
+RESPONSIVE DESIGNS: tiene los siguientes breakpoints.Fijate que tiene 2xl para mas de 1535px
+
+Breakpoint prefix	Minimum width	CSS
+sm	640px	@media (min-width: 640px) { ... }
+md	768px	@media (min-width: 768px) { ... }
+lg	1024px	@media (min-width: 1024px) { ... }
+xl	1280px	@media (min-width: 1280px) { ... }
+2xl	1536px	@media (min-width: 1536px) { ... }
+
+DARK MODE: ahora mismo al diseñar una web es imprescindible el dark mode.Tailwind permite apuntar a este modo simplemente usando el prefijo dark:clases.Ejemplo:
+ <div class="bg-white dark:bg-black">
+NOTA:para que lo controle el sistem darkMode irá en 'media',si quiero el control yo irá en 'class'(ver documentación):
+
+module.exports = {
+  darkMode: 'media' | 'class', (sistema o modo manual
+}
+
+Puedo customizar lo que quiera,como mis propios breakpoints,mis propios colores(esto si parece superútil),imágenes,fuentes,...
+module.exports = {
+  theme: {
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+    },
+    colors: {
+      'blue': '#1fb6ff',
+      'pink': '#ff49db',
+      'orange': '#ff7849',
+      'green': '#13ce66',
+      'gray-dark': '#273444',
+      'gray': '#8492a6',
+      'gray-light': '#d3dce6',
+    },
+    fontFamily: {
+      sans: ['Graphik', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
+
+También puedo agregarle plugins,para agregarle plugins parece que tengo que usar esta sintaxis:
+const plugin = require('tailwindcss/plugin')
+
+module.exports = {
+  // ...
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/aspect-ratio'),
+  ]
+}
+Por ejemplo,usar el de forms extenderá la funcionalidad de Tailwind a selects o checkboxes:
+<!-- You can actually customize padding on a select element: -->
+<select class="px-4 py-3 rounded-full">
+  <!-- ... -->
+</select>
+
+<!-- Or change a checkbox color using text color utilities: -->
+<input type="checkbox" class="rounded text-pink-500" />
+
+O por ejemplo otro para el aspect-ratio:
+The @tailwindcss/aspect-ratio plugin adds aspect-w-{n} and aspect-h-{n} classes that can be combined to give an element a fixed aspect ratio.
+
+<div class="aspect-w-16 aspect-h-9">
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+También tiene otras opciones como preset,que parece que mezcla incluso otros plugins con la configuracion por defecto.
+
+						VIDEO 07 ANIMACIONES
+
+Para transiciones Tailwind tiene la clase transition,aparte puede ir acompañada d e un tipo y una duración:
+button class="transition ease-in duration-700"
+buttn class="transition ease-out duration-500
+a class="transition ease-in-out duration-300
+button transition ease-linear duration-400
+
+Bien,fijate que tuvo que agregar variants(diria que ya no hace falta):
+Y ahora puedo incluso animar el border width de un enlace:
+<a class=" hover:border-b-2 hover:border-b-slate-600 border-b-2 border-b-teal-500 transition ease-in-out duration-700">
+
+IMPORTANTE: tailwindcss me da animaciones ya echas,muy útiles:
+
+Add the animate-spin utility to add a linear spin animation to elements like loading indicators.
+<svg class="animate-spin 
+Ping
+Add the animate-ping utility to make an element scale and fade like a radar ping or ripple of water — useful for things like notification badges.
+Add the animate-bounce utility to make an element bounce up and down — useful for things like “scroll down” indicators.
+
+Obviamente también puedo customizar mis propias animaciones.Recuerda animate-spin para un loader,animate-ping para una notification badge,animate-bounce para un pequeño rebote y animate-pulse para un fade-in fade-out.
+Seguir investigando sobre este prometedor framework.
