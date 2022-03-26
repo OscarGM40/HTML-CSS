@@ -1,0 +1,42 @@
+
+
+Fijate que align-content sólo vale para cuando haya dos filas.Diria que esto es para cualquier disposición.Confirmar.
+
+Flex-grow define el factor de crecimiento de los elementos contenidos.Por defecto está en 0(no se estirarán,pero si lo pusiera en 1 todos van a tratar de abarcar el máximo ancho disponible en el contenedor:
+
+.container {
+  with:900px;	
+  height:600px,
+  display: flex;
+}
+*Imaginando que hay 3 hijos de 100px
+.element {
+  width:100px;
+  flex-grow: 1; <- van a pasar de ese width de 100px y ocupar 300px,ojo
+
+Recuerda que por defecto en flexBox los elementos hijos son flexibles,adaptandose al contenedor padre,tanto para limitar su estiramiento como para limitar su encogimiento.Fijate que su valor por defecto es 1,es decir,todos se encogen por igual,y fijate como constrasta con flex-grow a 0(ninguno se estira más que los demás).
+
+Por último está flex-basis que indica el tamaño del hijo en el eje principal.Dado que por defecto es el eje X indica el width(tiene más prioridad que width).Pero si cambiará a flex-column flex-basis daría la altura,ya que sería el eje Y el eje principal en ese caso.
+Recuerda que también tengo align-self para los hijos,por si quiero cambiar a uno la alineacíon.Lo mismo con justify-self.
+
+Practica 01: fijate que sencillo es coger las dos fuentes de Google Fonts y usar custom properties en Css 
+
+:root {
+  --poppins: 'Poppins', sans-serif;
+  --open-sans: 'Open Sans', sans-serif;
+}
+body {
+  font-family: var(--open-sans); 
+}
+
+Hago lo mismo con los colores.Fijate en la convención de usar minúsculas para custom properties de Css:
+:root {
+  --poppins: 'Poppins', sans-serif;
+  --open-sans: 'Open Sans', sans-serif;
+  --pink: hsl(322, 100%, 66%);
+  --light-pink: hsl(321, 100%, 78%);
+  --light-red: hsl(0, 100%, 63%);
+  --very-dark-cyan: hsl(192, 100%, 9%);
+  --very-pale-blue: hsl(207, 100%, 98%);
+}
+
