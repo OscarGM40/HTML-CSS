@@ -1,0 +1,174 @@
+				CURSO PRÁCTICO SASS
+
+Source: https://www.youtube.com/watch?v=kaSVabk-jbA&ab_channel=AlexCGDesign
+
+Sass es un lenguaje de programación que da super-poderes a CSS y permite escribir CSS más rápido.Es un pre-procesador,hay que procesar su sintaxis mediante algun compilador.
+Sass permite agregar sintaxis como bucles,condicionales,variables,funciones propias de un lenguaje de programación.
+
+Para seguir adelante hará falta Node en el SO e instalar Sass en el proyecto como devDependency.También habrá que compilarlo,ya que no puedo referenciar a un archivo .scss en el index.html.Tengo que referenciar siempre a uno .css
+
+> sass --watch sass:css <- recuerda que hay que indicar los folders
+
+						VARIABLES
+
+Para declarar una variable simplemente uso $varname: value,ejemplo:
+$primary-red: crimson;
+El beneficio de las variables es tener un código más legible y escalable.En una aplicación normal no tiene sentido no usarlas,pues tendría que ir por cada lugar que ocupe ese color y cambiarlo si el cliente decidiera cambiarlo más adelante.
+Además,usar Sass me permite modularizar el código,mediante sus conocidos partials
+		
+					PARTIALS
+
+Un partial es un archivo .scss que comienza con un guión bajo.Su código no será compilado,haciendolos ideales para declarar variables,mixins,funciones,etc.
+Están ya preparados para ser llamados en un archivo principal que los importe
+
+TIP: si uso @use tengo que usar el namespace antes :
+@use 'variables';
+
+.nav {
+  color: variables.$color; <- ¿por qué querría hacer esto?
+No ocurre lo mismo si uso @import.
+
+				PARENT-ELEMENT SELECTOR Y ANIDAMIENTO EN SASS
+
+Sass permite el anidamiento de reglas.Es una de sus mejores features,junto con el parent-element selector(&) que representa al selector padre.Juntando ambos consigo cosas como esta:
+
+.nav {
+  background-color: $color2;
+
+  &__container {
+    width: 90%;
+    margin: 0 auto;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1em;
+  }
+
+  &__item {
+    color: #fff;
+    text-decoration: none;
+
+    &--active {
+      text-decoration: underline;
+    }
+  }
+
+  @media (min-width: 768px) {
+    &__container {
+      justify-content: flex-end;
+    }
+  }
+
+}
+
+Fijate que incluso puedo usar mediaqueries embebidas.
+
+			VARIABLES COMO KEYS - INTERPOLACION DE VARIABLES
+
+Fijate que normalmente usaré la variable para almacenar un valor de una regla,pero también puedo almacenar la key.Esto no es lo normal,pero tiene un par de aplicaciones:
+$display: 'display';
+
+Si ahora quiero usarla asi:
+$display: flex; 
+veré que da un error,ya que cuando uso una variable como selector no puedo ponerladirectamente,tengo que interpolarla.Para interpolar una variable se pone un hash(#) primero y abro llaves,dentro de ellas va la variable:
+#{ $display } : flex; <- asi si la lee
+
+
+Puedo hacer lo mismo para un selector:
+$nav = '.nav' <- almaceno en $nav el selector de clase
+
+#{ $nav } {
+  background-color: ...
+
+Esto es necesario cuando cree custom-properties de css:
+$primary: crimson;
+
+:root {
+  --primary: #{ $primary };
+
+					BUCLES Y CONDICIONALES EN SASS
+
+En Sass puedo usar bucles para no tener que repetir reglas.Fijate que es una conveción llamar a la variable iteradora $iterator,pero puedo llamarla como quiera:
+
+@for $iterator from 1 through 10 {
+  ... este código se repetirá 10 veces
+}
+
+Puedo terminar escribiendo virguerias como esta(le doy un name de animacion asianimacion1,animacion2,animacion3.. y despues hago un translateX de 50% por 1,por 2,por 3,por 4,... creando un efecto de péndulo:
+
+@for $iterator from 1 through 10 {
+  .circle-#{$iterator}{
+    animation-name: animacion#{$iterator};
+
+    @keyframes animacion#{$iterator}{
+      100%{
+        transform: translateX(50% * $iterator);
+      }
+    }
+    @if $iterator == 5 {
+      animation-direction: alternate-reverse;
+    }
+  }
+}
+Incluso puedo usar condicionales con @if condition.Increible.
+
+					MIXINS
+
+Si observo estoy repitiendo este código,aunque a veces cambie un valor o dos:
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ 	
+Sería buena idea poder definir un estilo reutilizable,y parametrizable.Cuando repita mucho un estilo en mi proyecto,es mejor crear un mixin.
+
+Para crear un mixin se usa @mixin <nombre> { reglas css}.Por ejemplo,algo tan simple como esto:
+
+@mixin crear-flexbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+Despues lo llamo con la directiva @include:
+@include crear-flexbox;
+
+Los mixins llegan a su máximo esplendor al usar argumentos:
+
+@mixin crear-flexbox($justify) {
+  display: flex;
+  align-items: center;
+  justify-content: $justify;
+}
+
+Ahora hay que llamarlo con ese argumento
+
+@include crear-flexbox(center);
+
+NOTA: es un estandar crear los @mixins dentro de partials y en el file _mixins.scss pero realmente puedo crearlo donde quiera,mientras esté en un archivo SASS.
+
+Cuando llame a un mixin sin argumentos lo llamaré sin los parentesis:
+@include arreglar-imagen;
+
+Fijate que en un mixin puedo entrar tmb por anidación a una propiedad que sea un shorthand(sólo dentro de un mixin o en todo sass??)
+@mixin arreglar-imagen {
+  background: {
+    size: cover;
+    repeat: no-repeat;
+    position: center;
+  }
+}
+
+			FUNCIONES Y MODULOS INTEGRADOS EN SASS
+
+Ya he visto que puedo multiplicar,dividir,sumar y restar en SASS(aunque para dividir tengo que llamar un módulo inbuild de la libreria).Ayudandome de eso puedo crear funciones que me ayuden con alguna lógica(por ejemplo,una función auxiliar que pase de px a rem).No confundir una @function con un @mixin.
+
+@use 'sass:math'; <- modulo propio de sass
+
+@function pixeles-rem($pixeles){
+ //32/16 = 2 pero yo quiero 2rem por eso multiplico 2 * 1rem;
+  $rem: math.div($pixeles,16) * 1rem;
+  @return $rem;
+}
+NOTAS: todas las funciones en Sass deben devolver algo,para ello usarán la directiva @return.Fijate que $rem es un nombre que me invento,puedo inventarme cualquier variable en sass con $<varname>,algo que ya vi.Fijate tmb que no usé el símbolo '=' sino ':' para dar el valor.
+

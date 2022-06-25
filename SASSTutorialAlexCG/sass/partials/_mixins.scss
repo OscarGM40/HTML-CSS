@@ -1,0 +1,22 @@
+@use 'sass:math';
+
+@mixin crear-flexbox($justify) {
+  display: flex;
+  align-items: center;
+  justify-content: $justify;
+}
+
+@mixin arreglar-imagen {
+  background: {
+    size: cover;
+    repeat: no-repeat;
+    position: center;
+  }
+}
+
+@function pixeles-to-rem($pixeles){
+  // * 1 rem para que devuelva 1.2rem y no el number 1.2
+  $resultado : math.div($pixeles,16) * 1rem;
+  // toda funcion debe retornar un valor en SASS
+  @return $resultado;
+}

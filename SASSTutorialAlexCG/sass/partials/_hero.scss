@@ -1,0 +1,25 @@
+.hero {
+  &__container {
+    padding-top: 20px;
+    height: calc(48vh - 70px);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),url('../../images/model3.avif');
+
+  
+    @include crear-flexbox(center);
+    @include arreglar-imagen;
+  }
+
+  &__texts {
+    width: 90%;
+    color: white;
+  }
+
+  &__title {
+    font-size: pixeles-to-rem(50);
+    margin-bottom: pixeles-to-rem(10);
+  }
+
+  &__paragraph {
+    font-size: pixeles-to-rem(18);
+  }
+}

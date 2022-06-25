@@ -16,7 +16,7 @@
   display: grid;
   /* grid-template-columns: repeat(4, 1fr); */
   /* grid-template-rows: repeat(3, 1fr); */
-  /* grid-template-columns: 100px auto 100px; */
+  /* grid-template-columns: 100px auto 100px;  esto hace que la columna del medio coja el resto,fijate auto que útil */
 
   /* Puedo usar gap en vez de row-gap + column-gap */
   gap: 20px 15px;

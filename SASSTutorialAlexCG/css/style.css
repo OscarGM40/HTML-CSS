@@ -1,0 +1,161 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  background-color: black;
+  border-radius: 50%;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.circle-1 {
+  animation-name: animacion1;
+}
+@keyframes animacion1 {
+  100% {
+    transform: translateX(50%);
+  }
+}
+
+.circle-2 {
+  animation-name: animacion2;
+}
+@keyframes animacion2 {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.circle-3 {
+  animation-name: animacion3;
+}
+@keyframes animacion3 {
+  100% {
+    transform: translateX(150%);
+  }
+}
+
+.circle-4 {
+  animation-name: animacion4;
+}
+@keyframes animacion4 {
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.circle-5 {
+  animation-name: animacion5;
+  animation-direction: alternate-reverse;
+}
+@keyframes animacion5 {
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.circle-6 {
+  animation-name: animacion6;
+}
+@keyframes animacion6 {
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+.circle-7 {
+  animation-name: animacion7;
+}
+@keyframes animacion7 {
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+.circle-8 {
+  animation-name: animacion8;
+}
+@keyframes animacion8 {
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+.circle-9 {
+  animation-name: animacion9;
+}
+@keyframes animacion9 {
+  100% {
+    transform: translateX(450%);
+  }
+}
+
+.circle-10 {
+  animation-name: animacion10;
+}
+@keyframes animacion10 {
+  100% {
+    transform: translateX(500%);
+  }
+}
+
+.hero__container {
+  padding-top: 20px;
+  height: calc(48vh - 70px);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("../../images/model3.avif");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.hero__texts {
+  width: 90%;
+  color: white;
+}
+.hero__title {
+  font-size: 3.125rem;
+  margin-bottom: 0.625rem;
+}
+.hero__paragraph {
+  font-size: 1.125rem;
+}
+
+h2 {
+  color: crimson;
+  font-size: 3rem;
+}
+
+.nav {
+  background-color: steelblue;
+}
+.nav__container {
+  width: 90%;
+  margin: 0 auto;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1em;
+}
+.nav__item {
+  color: #fff;
+  text-decoration: none;
+}
+.nav__item--active {
+  text-decoration: underline;
+}
+@media (min-width: 768px) {
+  .nav__container {
+    justify-content: flex-end;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

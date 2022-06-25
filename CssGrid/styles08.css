@@ -27,9 +27,10 @@ body {
     display: grid;
     padding: 30px;
     grid-auto-flow: row dense;
-    grid-template-columns: repeat(4,1fr 2fr);
-    grid-template-rows: repeat(2,1fr);
-    gap:10px 15px;
+    grid: repeat(2,1fr) / repeat(4, 1fr 2fr);
+    /* grid-template-columns: repeat(4,1fr 2fr); */
+    /* grid-template-rows: repeat(2,1fr); */
+    gap: 10px 15px;
     justify-content: center;
     align-content:center;
     align-items: flex-start;

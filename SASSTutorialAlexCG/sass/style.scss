@@ -1,0 +1,36 @@
+@import "./partials/partials.scss";
+
+h2 {
+  color: $color1;
+  font-size: 3rem;
+}
+
+#{ $nav } {
+  background-color: $color2;
+
+  &__container {
+    width: 90%;
+    margin: 0 auto;
+    height: 70px;
+    #{ $display }: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1em;
+  }
+
+  &__item {
+    color: #fff;
+    text-decoration: none;
+
+    &--active {
+      text-decoration: underline;
+    }
+  }
+
+  @media (min-width: 768px) {
+    &__container {
+      justify-content: flex-end;
+    }
+  }
+
+}
