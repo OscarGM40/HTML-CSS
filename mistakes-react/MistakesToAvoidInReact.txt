@@ -1,0 +1,96 @@
+					  MISTAKES TO AVOID AS JUNIOR
+
+Source: https://www.youtube.com/watch?v=Fhu5cu864ag&t=283s&ab_channel=LamaDev
+
+ERROR UNO: no usar una callback en el setter de un useState para asegurarme que recibo el ultimo valor.Si bien el ejemplo es bastante enrevesado,da prueba del error:
+
+Dos botones que llaman al mismo setter,pero uno es asincrono:
+
+ <button onClick={increase}> Increase</button>
+ <button onClick={increaseAsync}> Increase</button>
+ <h1>{number}</h1>
+
+  const increase = () => {
+    setNumber(number + 1);
+  };
+
+  const increaseAsync = () => {
+    setTimeout(() => setNumber(number + 1),2000);
+  };
+
+Esto dará lugar a inconsistencia de datos,si llamo al async y despues al sincrono al final el async tomará el primer valor que tenia,perdiendo todas las actualizaciones del increase
+
+La solución pasa por usar una callback en el setter:
+  const increaseAsync = () => {
+    setTimeout(() => setNumber((prev) => prev + 1),2000);
+  };
+TIP: es un standard llamar prev o current al arg de la cb.
+
+SEGUNDO ERROR: pantalla blanca por getter de un useState que devuelve undefined:
+
+const [user,setUser] = useState()
+
+<h2>USER</h2>
+<span>Username is: {user.name} </span>
+Obviamente no puede leer 'name' de undefined,cae la aplicación y muestra una pantalla en blanco.Una solución es usar una condicion para que muestre ese JSX si hay un user:
+
+<h2>USER</h2>
+{user && <span>Username is: {user.name} </span>}
+
+Otra aún mejor es usar el operador ?
+<span>Username is: {user?.name} </span>
+
+Y otra más es inicializar el useState con lo que se espera:
+ const [user, setUser] = useState({
+  name:"",
+  email:"",
+  images:[]
+});
+
+Lo importante es gestionar los undefined,que hacen caer la app
+
+ERROR TRES: actualizar solo una propiedad especifica de un objeto.Simplemente retornar un objeto y pisar esa propiedad:
+const changeUser = () => {
+  setUser(prev => ({
+    ...prev,
+    name: input
+  }))
+}
+
+ERROR CUATRO: cambiar muchos inputs a la vez en un formulario.
+
+De nuevo no debo crear varios states,sino uno solo y usar propiedades computadas
+const changeUser = (e) => {
+  setUser(prev => ({
+    ...prev,
+    [e.target.name]: e.target.value
+  }))
+
+ERROR CINCO: a veces es mejor usar un useReducer,siempre que tenga un objeto asi:
+const [ product,setProduct ] useState({
+  title:"",
+  desc:"",
+  price:0,
+  category:"",
+  tags:[],
+  images:{
+    sm:"",
+    md:"",
+    lg:"",
+  },
+  quantity:0
+})
+En este caso es mejor un reducer,porque no son todo Strings(como si lo eran en el 4).Es decir que si todas las props del objeto son strings puedo usar computadas,pero si mezcla tipos es mejor un reducer.
+
+ERROR SEIS: estados derivados.Por ejemplo con dos states asi dentro de un mismo file:
+const [products,setProducts] = useState([])
+const [selectedProducts,setSelectedProducts] = useState([])
+
+puedo terminar facilmente mezclando los productos iniciales con los seleccionados,o los seleccionados con los que se recibieron por primera vez
+
+La solución es no mezclarlos,por ejemplo uno los productos y otro de ids
+
+const [products,setProducts] = useState([])
+const [selectedIds,setSelectedIds] = useState([])
+
+Investigar más sobre esto.
