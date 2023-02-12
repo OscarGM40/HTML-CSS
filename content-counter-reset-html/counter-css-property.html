@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter reset and increment css properties</title>
+</head>
+<style>
+  body {
+    /* debo establecer un contador de forma global con la prop counter-reset: any-name */
+    counter-reset: my-counter;
+  }
+
+  h2::before {
+    /* ojo que counter-increment lo incrementa(o decrementa),pero tengo que llamarlo con la funcion counter(micontador) */
+    counter-increment: my-counter;
+    /* la funcion counter(contador,estilo?) tiene un segundo argumento para el estilo del contador */
+    content: "Section " counter(my-counter,upper-roman) ". ";
+    /* obviamente estas tres propiedades counter-reset && counter-increment && content: counter(mi-counter) suelen ir juntas */
+    /* puedo decrementar el counter-reset con counter-increment: my-counter -1 (o -2 etc) */
+  }
+</style>
+
+<body>
+
+  <h2>HTML Tutorial</h2>
+  <h2>CSS Tutorial</h2>
+  <h2>JavaScript Tutorial</h2>
+  <h2>Bootstrap Tutorial</h2>
+  <h2>SQL Tutorial</h2>
+  <h2>PHP Tutorial</h2>
+
+</body>
+
+</html>

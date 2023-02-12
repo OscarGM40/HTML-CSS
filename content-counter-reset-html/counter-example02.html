@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter reset and increment css properties</title>
+</head>
+<style>
+  body {
+    /* en el body pongo section a 0 */
+    counter-reset: section;
+  }
+  
+  h1{
+    /* cada h1 pone subsection a 0.Fijate que subsection vive en el h1 y no en el body */
+    counter-reset: subsection;
+    /* fijate que se lia con más de un contador por regla CSS */
+    /* counter-reset: asinto; */
+  }
+  
+  h1::before {
+    /* cada h1 incrementa section  */
+    counter-increment: section;
+    content: "Section " counter(section)": ";
+  }
+  
+  h2::before {
+    /* cada h2 incrementa subsection,pero el siguiente h1 lo resetea ojo */
+    counter-increment: subsection;
+    content: counter(section) "." counter(subsection) " ";
+  }
+</style>
+
+<body>
+  <h1>HTML and CSS</h1>
+  <h2>HTML Tutorial</h2>
+  <h2>CSS Tutorial</h2>
+  <hr>
+
+  <h1>Javascript</h1>
+  <h2>JavaScript Tutorial</h2>
+  <h2>jQuery Tutorial</h2>
+  <h2>JSON Tutorial</h2>
+  <hr>
+
+
+  <h1>Server Side</h1>
+  <h2>SQL Tutorial</h2>
+  <h2>PHP Tutorial</h2>
+  <hr>
+
+</body>
+
+</html>
